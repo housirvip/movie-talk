@@ -5,23 +5,21 @@ package edu.uta.movietalk.constant;
  */
 public class ErrorMessage {
 
-    public static final String UNAUTHORIZED = "未认证";
-    public static final String CAPTCHA_ERROR = "验证码错误";
-    public static final String SMS_ERROR = "短信验证码错误";
-    public static final String NULL_POINTER_EXCEPTION = "系统空指针异常";
-    public static final String SERVICE_EXCEPTION = "系统内部服务异常";
+    public static final String UNAUTHORIZED = "UNAUTHORIZED";
+    public static final String CAPTCHA_ERROR = "CAPTCHA_ERROR";
+    public static final String SMS_ERROR = "SMS_ERROR";
+    public static final String NULL_POINTER_EXCEPTION = "NULL_POINTER_EXCEPTION";
+    public static final String SERVICE_EXCEPTION = "SERVICE_EXCEPTION";
 
-    public static final String ACCOUNT_NOT_FOUND = "账户未找到";
-    public static final String ACCOUNT_DISABLED = "账户已停用";
-    public static final String ACCOUNT_PASSWORD_ERROR = "账户密码错误";
+    public static final String ACCOUNT_NOT_FOUND = "ACCOUNT_NOT_FOUND";
+    public static final String ACCOUNT_DISABLED = "ACCOUNT_DISABLED";
+    public static final String ACCOUNT_PASSWORD_ERROR = "ACCOUNT_PASSWORD_ERROR";
 
-    public static final String USERNAME_EXIST = "用户名已存在";
-    public static final String EMAIL_EXIST = "邮箱已存在";
-    public static final String PHONE_EXIST = "手机号码已存在";
+    public static final String USERNAME_EXIST = "USERNAME_EXIST";
+    public static final String EMAIL_EXIST = "EMAIL_EXIST";
+    public static final String PHONE_EXIST = "PHONE_EXIST";
 
-    public static final String USER_NOT_FOUND = "用户未找到";
-    public static final String USER_LEVEL_DOWN_DENY = "用户不支持降级";
-    public static final String USER_LEVEL_LIMIT = "用户等级限制";
-    public static final String USER_GROUP_LIMIT = "用户组限制";
-    public static final String USER_WALLET_LIMIT = "用户余额不足";
+    public static final String USER_NOT_FOUND = "USER_NOT_FOUND";
+    public static final String USER_LEVEL_LIMIT = "USER_LEVEL_LIMIT";
+    public static final String USER_GROUP_LIMIT = "USER_GROUP_LIMIT";
 }
