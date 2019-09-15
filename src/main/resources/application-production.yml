@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 8080
   address:
 
 spring:
@@ -11,10 +11,10 @@ spring:
     password: guest
     virtual-host: oes
   datasource:
-    url: jdbc:mysql://localhost:3306/movie-talk?characterEncoding=utf8&autoReconnect=true&useSSL=false
+    url: ${JDBC_DATABASE_URL}&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: housirvip
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
   jackson:
     default-property-inclusion: NON_NULL
     date-format: yyyy-MM-dd HH:mm:ss
