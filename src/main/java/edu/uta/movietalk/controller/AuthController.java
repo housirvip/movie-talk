@@ -1,0 +1,41 @@
+package edu.uta.movietalk.controller;
+
+import edu.uta.movietalk.base.BaseResponse;
+import edu.uta.movietalk.base.ResultResponse;
+import edu.uta.movietalk.dto.Login;
+import edu.uta.movietalk.dto.Register;
+import edu.uta.movietalk.dto.UserDto;
+import edu.uta.movietalk.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * @author housirvip
+ */
+@RestController
+@RequestMapping(value = "/auth")
+@RequiredArgsConstructor
+public class AuthController {
+
+    private final UserService userService;
+
+    @PostMapping(value = "/login")
+    public BaseResponse<String> login(@RequestBody @Validated(value = Login.class) UserDto userDto) {
+
+        return new ResultResponse<>(userService.login(userDto));
+    }
+
+    @PostMapping(value = "/signup")
+    public BaseResponse<String> signUp(@RequestBody @Validated(value = Register.class) UserDto userDto) {
+
+        return new ResultResponse<>(userService.register(userDto));
+    }
+
+    @GetMapping(value = "/refresh")
+    public BaseResponse<String> refresh(Authentication auth) {
+
+        return new ResultResponse<>(userService.refresh((Integer) auth.getPrincipal()));
+    }
+}

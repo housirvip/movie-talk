@@ -1,0 +1,43 @@
+server:
+  port: 8000
+  address:
+
+spring:
+  application:
+    name: oes-user
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    virtual-host: oes
+  datasource:
+    url: jdbc:mysql://localhost:3306/movie-talk?characterEncoding=utf8&autoReconnect=true&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: housirvip
+  jackson:
+    default-property-inclusion: NON_NULL
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+pagehelper:
+  helperDialect: mysql
+  offsetAsPageNum: true
+  pageSizeZero: true
+  #    reasonable: true
+  #    supportMethodsArguments: true
+  rowBoundsWithCount: true
+
+# custom defined params
+user:
+  role: USER
+  group: User
+  level: 0
+
+jwt:
+  secret: changeIt
+  expire: 21600
+  delay: 60
