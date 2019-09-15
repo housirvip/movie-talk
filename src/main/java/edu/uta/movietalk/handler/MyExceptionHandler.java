@@ -23,7 +23,6 @@ public class MyExceptionHandler {
     public BaseResponse handlerRuntimeException(RuntimeException ex) {
 
         if (ex.getMessage() == null || ex.getMessage().isEmpty()) {
-
             return new ErrorResponse(ErrorMessage.SERVICE_EXCEPTION);
         }
 
