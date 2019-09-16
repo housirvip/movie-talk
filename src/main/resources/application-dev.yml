@@ -5,16 +5,11 @@ server:
 spring:
   application:
     name: movie-talk
-  rabbitmq:
-    host: localhost
-    username: guest
-    password: guest
-    virtual-host: oes
   datasource:
-    url: jdbc:mysql://localhost:3306/movie-talk?characterEncoding=utf8&autoReconnect=true&useSSL=false
+    url: jdbc:mysql://changeId:3306/movie-talk?characterEncoding=utf8&autoReconnect=true&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: housirvip
+    password: changeIt
   jackson:
     default-property-inclusion: NON_NULL
     date-format: yyyy-MM-dd HH:mm:ss

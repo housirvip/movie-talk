@@ -5,11 +5,6 @@ server:
 spring:
   application:
     name: movie-talk
-  rabbitmq:
-    host: localhost
-    username: guest
-    password: guest
-    virtual-host: oes
   datasource:
     url: ${CLEARDB_DATABASE_URL}&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
