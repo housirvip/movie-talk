@@ -2,6 +2,7 @@ package edu.uta.movietalk.controller;
 
 import edu.uta.movietalk.base.BaseResponse;
 import edu.uta.movietalk.base.ResultResponse;
+import edu.uta.movietalk.client.TestClient;
 import edu.uta.movietalk.dto.Login;
 import edu.uta.movietalk.dto.Register;
 import edu.uta.movietalk.dto.UserDto;
@@ -21,6 +22,8 @@ public class AuthController {
 
     private final UserService userService;
 
+    private final TestClient testClient;
+
     @PostMapping(value = "/login")
     public BaseResponse<String> login(@RequestBody @Validated(value = Login.class) UserDto userDto) {
 
@@ -37,5 +40,11 @@ public class AuthController {
     public BaseResponse<String> refresh(Authentication auth) {
 
         return new ResultResponse<>(userService.refresh((Integer) auth.getPrincipal()));
+    }
+
+    @GetMapping(value = "/test")
+    public BaseResponse<Object> test() {
+
+        return new ResultResponse<>(testClient.test());
     }
 }
