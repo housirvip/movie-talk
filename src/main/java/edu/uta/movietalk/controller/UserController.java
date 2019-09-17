@@ -6,6 +6,7 @@ import edu.uta.movietalk.client.TestClient;
 import edu.uta.movietalk.dto.Login;
 import edu.uta.movietalk.dto.Register;
 import edu.uta.movietalk.dto.UserDto;
+import edu.uta.movietalk.entity.User;
 import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -16,29 +17,21 @@ import org.springframework.web.bind.annotation.*;
  * @author housirvip
  */
 @RestController
-@RequestMapping(value = "/auth")
+@RequestMapping(value = "/user")
 @RequiredArgsConstructor
-public class AuthController {
+public class UserController {
 
     private final UserService userService;
 
-    private final TestClient testClient;
+    @GetMapping(value = "/detail")
+    public BaseResponse<User> detail(Authentication auth) {
 
-    @PostMapping(value = "/login")
-    public BaseResponse<String> login(@RequestBody @Validated(value = Login.class) UserDto userDto) {
-
-        return new ResultResponse<>(userService.login(userDto));
+        return new ResultResponse<>(userService.oneById((Integer) auth.getPrincipal()));
     }
 
-    @PostMapping(value = "/signup")
-    public BaseResponse<String> signUp(@RequestBody @Validated(value = Register.class) UserDto userDto) {
+    @GetMapping(value = "/refresh")
+    public BaseResponse<String> refresh(Authentication auth) {
 
-        return new ResultResponse<>(userService.register(userDto));
-    }
-
-    @GetMapping(value = "/test")
-    public BaseResponse<Object> test() {
-
-        return new ResultResponse<>(testClient.test());
+        return new ResultResponse<>(userService.refresh((Integer) auth.getPrincipal()));
     }
 }

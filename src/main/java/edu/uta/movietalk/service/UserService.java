@@ -52,14 +52,6 @@ public interface UserService {
     User oneById(Integer uid);
 
     /**
-     * 根据 uid 获取 User 包含 UserInfo, Wallet
-     *
-     * @param uid Integer
-     * @return User
-     */
-    User detail(Integer uid);
-
-    /**
      * 根据参数查询，支持分页
      *
      * @param pageDto PageDto

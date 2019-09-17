@@ -145,15 +145,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User detail(Integer uid) {
-
-        User user = userMapper.selectByPrimaryKey(uid);
-        user.setPassword(null);
-
-        return user;
-    }
-
-    @Override
     public Page<User> pageByParam(PageDto pageDto) {
 
         Page<User> userPage = userMapper.listByParam(pageDto.putParam().getParamAsMap());
