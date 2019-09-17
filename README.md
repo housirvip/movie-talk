@@ -13,4 +13,4 @@ From Sept. 8th 2019, Version: 1.0
 3. [Peng Kong](https://github.com/kong-p): DiscoverPage,Movie SearchPage
 
 ### License
-[Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
+[MIT License](https://mit-license.org/)
