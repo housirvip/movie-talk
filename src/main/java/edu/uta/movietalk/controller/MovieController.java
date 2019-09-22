@@ -3,11 +3,12 @@ package edu.uta.movietalk.controller;
 import edu.uta.movietalk.base.BaseResponse;
 import edu.uta.movietalk.base.ResultResponse;
 import edu.uta.movietalk.client.TMDBClient;
+import feign.Param;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
 
 /**
  * @author hxy
@@ -30,6 +31,12 @@ public class MovieController {
     public BaseResponse<Object> nowPlay() {
 
         return new ResultResponse<>(tmdbClient.getNowPlaying(api_v3));
+    }
+
+    @GetMapping(value = "/details/{movie_id}")
+    public BaseResponse<Object> nowPlay(@PathVariable("movie_id") String movie_id) {
+
+        return new ResultResponse<>(tmdbClient.getDetails(movie_id, api_v3));
     }
 
 }
