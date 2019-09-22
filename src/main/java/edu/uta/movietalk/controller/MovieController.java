@@ -45,4 +45,16 @@ public class MovieController {
         return new ResultResponse<>(tmdbClient.getCredits(movie_id, api_v3));
     }
 
+    @GetMapping(value = "/discover")
+    public BaseResponse<Object> discoverMovie(@RequestParam("year") String year, @RequestParam("with_genres") String with_genres, @RequestParam("sort_by") String sort_by, @RequestParam("page") String page) {
+
+        return new ResultResponse<>(tmdbClient.discoverMovie(api_v3, year, with_genres, sort_by, page));
+    }
+
+    @GetMapping(value = "/search")
+    public BaseResponse<Object> searchMovie(@RequestParam("query") String query, @RequestParam("page") String page) {
+
+        return new ResultResponse<>(tmdbClient.searchMovie(api_v3, query, page));
+    }
+
 }
