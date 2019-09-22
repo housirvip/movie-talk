@@ -39,4 +39,10 @@ public class MovieController {
         return new ResultResponse<>(tmdbClient.getDetails(movie_id, api_v3));
     }
 
+    @GetMapping(value = "/credits/{movie_id}")
+    public BaseResponse<Object> credits(@PathVariable("movie_id") String movie_id) {
+
+        return new ResultResponse<>(tmdbClient.getCredits(movie_id, api_v3));
+    }
+
 }
