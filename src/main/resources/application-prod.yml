@@ -11,7 +11,7 @@ spring:
   jackson:
     default-property-inclusion: NON_NULL
     date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
+    time-zone: GMT-5
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -37,6 +37,17 @@ jwt:
 
 cors:
   path: /**
-  origins: http://localhost:8080,http://localhost:9090
+  origins: http://localhost:8080,http://localhost:9090,https://mvtk.herokuapp.com
   methods: GET,POST,PUT,DELETE,HEAD,OPTIONS
   headers: Content-Type,Authorization,credential,X-XSRF-TOKEN
+
+api:
+  tmdb:
+    url: https://api.themoviedb.org
+    v3: ${KEY_V3}
+    v4: ${KEY_V4}
+
+logging:
+  level:
+    root: info
+    edu.uta.movietalk.client: debug

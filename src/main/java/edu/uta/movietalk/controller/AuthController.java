@@ -8,7 +8,6 @@ import edu.uta.movietalk.dto.Register;
 import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
