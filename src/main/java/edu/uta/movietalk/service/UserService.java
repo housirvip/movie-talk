@@ -5,8 +5,6 @@ import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.entity.User;
 
-import java.util.List;
-
 /**
  * @author housirvip
  */
