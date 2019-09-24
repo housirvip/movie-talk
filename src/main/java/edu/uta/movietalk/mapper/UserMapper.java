@@ -12,15 +12,16 @@ import java.util.Map;
 @Mapper
 public interface UserMapper {
     /**
-     * 通过主键删除
+     * delete by user id
      *
      * @param id Integer
-     * @return int 删除的行数
+     * @return int
      */
     int deleteByPrimaryKey(Integer id);
 
     /**
-     * 插入一条记录返回值为 ID，对象中属性值为 null，则数据库赋值为 null
+     * insert a new user
+     * return user id
      *
      * @param record User
      * @return int
@@ -28,7 +29,8 @@ public interface UserMapper {
     int insert(User record);
 
     /**
-     * 插入一条记录返回值为 ID，对象中属性值为 null 则不赋值，取数据库默认值
+     * insert a new user, selective
+     * return user id
      *
      * @param record User
      * @return int
@@ -36,7 +38,7 @@ public interface UserMapper {
     int insertSelective(User record);
 
     /**
-     * 根据主键查询记录，返回一条记录或者 null
+     * select by user id
      *
      * @param id Integer
      * @return User
@@ -44,8 +46,7 @@ public interface UserMapper {
     User selectByPrimaryKey(Integer id);
 
     /**
-     * 根据主键更新记录，返回受影响的记录数
-     * 对象中属性值为 null，则不赋值
+     * update by user id, selective
      *
      * @param record User
      * @return int
@@ -53,8 +54,7 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     /**
-     * 根据主键更新记录，返回受影响的记录数
-     * 对象中属性值为 null，则数据库赋值为 null
+     * update by user id
      *
      * @param record User
      * @return int
@@ -62,8 +62,8 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     /**
-     * 根据主键更新记录，返回受影响的记录数
-     * 对象中属性值为 null，则数据库赋值为 null
+     * update by user id
+     * with BLOBS(json type)
      *
      * @param record User
      * @return int
@@ -71,7 +71,7 @@ public interface UserMapper {
     int updateByPrimaryKeyWithBLOBs(User record);
 
     /**
-     * 根据 account 查找账户
+     * select by account
      *
      * @param account String
      * @return User
@@ -79,7 +79,7 @@ public interface UserMapper {
     User selectByAccount(String account);
 
     /**
-     * 根据 phone 查找账户
+     * select by phone
      *
      * @param phone String
      * @return User
@@ -87,7 +87,7 @@ public interface UserMapper {
     User selectByPhone(String phone);
 
     /**
-     * 判断 username 是否已存在
+     * check if username exist
      *
      * @param username String
      * @return Boolean
@@ -95,7 +95,7 @@ public interface UserMapper {
     Boolean existUsername(String username);
 
     /**
-     * 判断 email 是否已存在
+     * check if username email
      *
      * @param email String
      * @return Boolean
@@ -103,7 +103,7 @@ public interface UserMapper {
     Boolean existEmail(String email);
 
     /**
-     * 判断 phone 是否已存在
+     * check if phone exist
      *
      * @param phone String
      * @return Boolean
@@ -111,7 +111,8 @@ public interface UserMapper {
     Boolean existPhone(String phone);
 
     /**
-     * 根据参数查询，支持分页
+     * select user list by param map
+     * support pagehelper
      *
      * @param param Map<String,Object>
      * @return Page

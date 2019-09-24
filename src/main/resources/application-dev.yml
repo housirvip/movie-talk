@@ -34,7 +34,7 @@ user:
 
 jwt:
   secret: changeIt
-  expire: 21600
+  expire: 21600000
   delay: 60
 
 cors:

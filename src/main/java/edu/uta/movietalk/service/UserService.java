@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface UserService {
     /**
-     * 验证账户和密码，成功返回 jwt
+     * verify account and password, then return jwt token
      *
      * @param userDto UserDto
      * @return String
@@ -20,7 +20,7 @@ public interface UserService {
     String login(UserDto userDto);
 
     /**
-     * 注册账户，成功返回 jwt
+     * register a new account, then return jwt token
      *
      * @param userDto UserDto
      * @return String
@@ -28,7 +28,7 @@ public interface UserService {
     String register(UserDto userDto);
 
     /**
-     * 管理员创建账户，返回主键 id
+     * manager can create a new user, then return user id
      *
      * @param userDto UserDto
      * @return Integer
@@ -36,7 +36,15 @@ public interface UserService {
     Integer create(UserDto userDto);
 
     /**
-     * 更新认证，刷新 jwt
+     * update user table set a new password, then return user id
+     *
+     * @param userDto UserDto
+     * @return String
+     */
+    Integer changePass(UserDto userDto);
+
+    /**
+     * refresh jwt token
      *
      * @param uid Integer
      * @return String
@@ -44,7 +52,7 @@ public interface UserService {
     String refresh(Integer uid);
 
     /**
-     * 根据 uid 获取 User 不包含 UserInfo
+     * select a user where equal param uid
      *
      * @param uid Integer
      * @return User
@@ -52,7 +60,7 @@ public interface UserService {
     User oneById(Integer uid);
 
     /**
-     * 根据参数查询，支持分页
+     * select user list where equal param pageDto
      *
      * @param pageDto PageDto
      * @return Page
@@ -60,7 +68,7 @@ public interface UserService {
     Page<User> pageByParam(PageDto pageDto);
 
     /**
-     * 更新 User，返回 id
+     * update user where equal param user
      *
      * @param user User
      * @return Integer

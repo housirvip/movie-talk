@@ -134,6 +134,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Integer changePass(UserDto userDto) {
+
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
     public User oneById(Integer uid) {
 
         User user = userMapper.selectByPrimaryKey(uid);
@@ -155,6 +165,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer update(User user) {
 
+        user.setPassword(null);
         userMapper.updateByPrimaryKeySelective(user);
 
         return user.getId();
