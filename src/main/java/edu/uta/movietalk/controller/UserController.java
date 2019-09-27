@@ -33,7 +33,7 @@ public class UserController {
         return new ResultResponse<>(userService.refresh((Integer) auth.getPrincipal()));
     }
 
-    @PostMapping(value = "/change-pass")
+    @PutMapping(value = "/change-pass")
     public BaseResponse<Integer> refresh(@RequestBody @Validated(value = ChangePass.class) UserDto userDto, Authentication auth) {
 
         userDto.setId((Integer) auth.getPrincipal());
