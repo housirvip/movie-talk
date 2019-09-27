@@ -27,6 +27,9 @@ public class UserDto implements Serializable {
     @NotBlank(groups = {Login.class, Register.class, ChangePass.class})
     private String password;
 
+    @NotBlank(groups = {ChangePass.class})
+    private String newPass;
+
     @NotBlank(groups = {Register.class})
     private String email;
 

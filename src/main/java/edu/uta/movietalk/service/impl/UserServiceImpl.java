@@ -136,9 +136,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer changePass(UserDto userDto) {
 
-        User user = new User();
+        User user = userMapper.selectByPrimaryKey(userDto.getId());
+        //账户未找到
+        Preconditions.checkNotNull(user, ErrorMessage.ACCOUNT_NOT_FOUND);
+        //验证密码
+        Preconditions.checkArgument(passwordEncoder.matches(userDto.getPassword(), user.getPassword()), ErrorMessage.ACCOUNT_PASSWORD_ERROR);
+
+        user = new User();
         user.setId(userDto.getId());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(userDto.getNewPass()));
 
         return userMapper.updateByPrimaryKeySelective(user);
     }
