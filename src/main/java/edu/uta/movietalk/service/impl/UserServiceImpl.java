@@ -201,6 +201,14 @@ public class UserServiceImpl implements UserService {
         return user.getId();
     }
 
+    @Override
+    public Integer updateInfo(UserInfo userInfo) {
+
+        userInfoMapper.updateByUidSelective(userInfo);
+
+        return userInfo.getUid();
+    }
+
     private List<String> checkExist(UserDto userDto) {
 
         List<String> result = Lists.newArrayList();

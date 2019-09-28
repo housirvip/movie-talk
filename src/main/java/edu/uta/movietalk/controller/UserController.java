@@ -5,6 +5,7 @@ import edu.uta.movietalk.base.ResultResponse;
 import edu.uta.movietalk.dto.ChangePass;
 import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.entity.User;
+import edu.uta.movietalk.entity.UserInfo;
 import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -33,10 +34,17 @@ public class UserController {
         return new ResultResponse<>(userService.refresh((Integer) auth.getPrincipal()));
     }
 
-    @PutMapping(value = "/change-pass")
-    public BaseResponse<Integer> refresh(@RequestBody @Validated(value = ChangePass.class) UserDto userDto, Authentication auth) {
+    @PutMapping(value = "/password")
+    public BaseResponse<Integer> modifyPassword(@RequestBody @Validated(value = ChangePass.class) UserDto userDto, Authentication auth) {
 
         userDto.setId((Integer) auth.getPrincipal());
         return new ResultResponse<>(userService.changePass(userDto));
+    }
+
+    @PutMapping(value = "/info")
+    public BaseResponse<Integer> modifyInfo(@RequestBody UserInfo userInfo, Authentication auth) {
+
+        userInfo.setUid((Integer) auth.getPrincipal());
+        return new ResultResponse<>(userService.updateInfo(userInfo));
     }
 }

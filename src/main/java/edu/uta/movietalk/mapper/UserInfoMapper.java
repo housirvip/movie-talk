@@ -65,4 +65,12 @@ public interface UserInfoMapper {
      * @return int
      */
     int updateByPrimaryKey(UserInfo record);
+
+    /**
+     * update by User id, selective
+     *
+     * @param record UserInfo
+     * @return int
+     */
+    int updateByUidSelective(UserInfo record);
 }

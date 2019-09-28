@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.entity.User;
+import edu.uta.movietalk.entity.UserInfo;
 
 /**
  * @author housirvip
@@ -80,4 +81,12 @@ public interface UserService {
      * @return Integer
      */
     Integer update(User user);
+
+    /**
+     * update userInfo where equal param userInfo
+     *
+     * @param userInfo UserInfo
+     * @return Integer
+     */
+    Integer updateInfo(UserInfo userInfo);
 }
