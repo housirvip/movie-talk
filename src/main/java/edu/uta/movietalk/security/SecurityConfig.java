@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint((httpServletRequest, httpServletResponse, e) ->
                         httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, ErrorMessage.UNAUTHORIZED))
                 .and().authorizeRequests()
-                .antMatchers("/actuator/**", "/auth/**", "/noauth/**", "/druid/**", "/movie/**").permitAll()
+                .antMatchers("/actuator/**", "/auth/**", "/user/friend", "/noauth/**", "/druid/**", "/movie/**").permitAll()
                 .antMatchers("/**").authenticated()
 //                .antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
                 .and().addFilter(new JwtAuthFilter(authenticationManager(), jwtUtils()));

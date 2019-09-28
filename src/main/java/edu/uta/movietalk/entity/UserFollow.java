@@ -12,9 +12,9 @@ import java.util.Date;
 public class UserFollow implements Serializable {
     private Integer id;
 
-    private Integer from;
+    private Integer fromId;
 
-    private Integer to;
+    private Integer toId;
 
     private Date createTime;
 

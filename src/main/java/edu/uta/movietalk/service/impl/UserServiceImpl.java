@@ -2,14 +2,18 @@ package edu.uta.movietalk.service.impl;
 
 import com.github.pagehelper.Page;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import edu.uta.movietalk.constant.Constant;
 import edu.uta.movietalk.constant.ErrorMessage;
 import edu.uta.movietalk.constant.UserGroup;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.entity.User;
+import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.entity.UserInfo;
+import edu.uta.movietalk.mapper.UserFollowMapper;
 import edu.uta.movietalk.mapper.UserInfoMapper;
 import edu.uta.movietalk.mapper.UserMapper;
 import edu.uta.movietalk.service.UserService;
@@ -23,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author housirvip
@@ -33,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final UserInfoMapper userInfoMapper;
+    private final UserFollowMapper userFollowMapper;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -224,5 +230,34 @@ public class UserServiceImpl implements UserService {
         }
 
         return result;
+    }
+
+    @Override
+    public Integer followUser(int fromId, int toId) {
+
+        UserFollow userFollow = new UserFollow();
+        userFollow.setFromId(fromId);
+        userFollow.setToId(toId);
+        userFollow.setCreateTime(new Date());
+
+        userFollowMapper.insert(userFollow);
+        return userFollow.getId();
+    }
+
+    @Override
+    public Boolean unfollowUser(int fromId, int toId) {
+
+
+        Map<String,Object> map= ImmutableMap.of("fromId",fromId, "toId", toId);
+
+        userFollowMapper.selectBySelective(map).forEach(item-> userFollowMapper.deleteByPrimaryKey(item.getId()));
+
+        return true;
+    }
+
+    @Override
+    public Page<UserFollow> pageUserFollow(PageDto pageDto) {
+
+        return userFollowMapper.selectBySelective(pageDto.putParam().getParamAsMap());
     }
 }
