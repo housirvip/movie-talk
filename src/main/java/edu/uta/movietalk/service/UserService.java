@@ -4,7 +4,10 @@ import com.github.pagehelper.Page;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.entity.User;
+import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.entity.UserInfo;
+
+import java.util.List;
 
 /**
  * @author housirvip
@@ -89,4 +92,32 @@ public interface UserService {
      * @return Integer
      */
     Integer updateInfo(UserInfo userInfo);
+
+
+    /**
+     * follow a user
+     *
+     * @param fromId int
+     * @param toId int
+     * @return int
+     */
+    Integer followUser(int fromId, int toId);
+
+
+    /**
+     * cancel follow a user
+     *
+     * @param fromId int
+     * @param toId int
+     * @return int
+     */
+    Boolean unfollowUser(int fromId, int toId);
+
+    /**
+     * select user following list
+     *
+     * @param pageDto PageDto
+     * @return Page<UserFollow>
+     */
+    Page<UserFollow> pageUserFollow(PageDto pageDto);
 }
