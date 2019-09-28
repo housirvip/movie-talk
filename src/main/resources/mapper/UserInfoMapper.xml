@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="job" jdbcType="VARCHAR" property="job" />
     <result column="state" jdbcType="VARCHAR" property="state" />
     <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
@@ -12,7 +13,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, uid, sex, job, state, birthday, create_time, update_time
+    id, uid, avatar, sex, job, state, birthday, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -34,10 +35,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user_info (uid, sex, job, 
+    insert into user_info (uid, avatar, sex, job,
       state, birthday, create_time, 
       update_time)
-    values (#{uid,jdbcType=INTEGER}, #{sex,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, 
+    values (#{uid,jdbcType=INTEGER}, #{avatar,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR},
       #{state,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -49,6 +50,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uid != null">
         uid,
+      </if>
+      <if test="avatar != null">
+        avatar,
       </if>
       <if test="sex != null">
         sex,
@@ -72,6 +76,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="uid != null">
         #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
         #{sex,jdbcType=VARCHAR},
@@ -99,6 +106,9 @@
       <if test="uid != null">
         uid = #{uid,jdbcType=INTEGER},
       </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
       <if test="sex != null">
         sex = #{sex,jdbcType=VARCHAR},
       </if>
@@ -123,6 +133,7 @@
   <update id="updateByPrimaryKey" parameterType="edu.uta.movietalk.entity.UserInfo">
     update user_info
     set uid = #{uid,jdbcType=INTEGER},
+      avatar = #{avatar,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       job = #{job,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},

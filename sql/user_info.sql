@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (
   `id` int(11) NOT NULL,
   `uid` int(11) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
   `sex` varchar(255) DEFAULT NULL,
   `job` varchar(255) DEFAULT NULL,
   `state` varchar(255) DEFAULT NULL,
