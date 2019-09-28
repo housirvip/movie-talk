@@ -58,6 +58,14 @@ public interface UserService {
     User oneById(Integer uid);
 
     /**
+     * select a user where equal param uid
+     *
+     * @param uid Integer
+     * @return User
+     */
+    User oneByIdWithInfo(Integer uid);
+
+    /**
      * select user list where equal param pageDto
      *
      * @param pageDto PageDto

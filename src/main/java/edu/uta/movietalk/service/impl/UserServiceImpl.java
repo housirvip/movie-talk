@@ -9,6 +9,8 @@ import edu.uta.movietalk.constant.UserGroup;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.entity.User;
+import edu.uta.movietalk.entity.UserInfo;
+import edu.uta.movietalk.mapper.UserInfoMapper;
 import edu.uta.movietalk.mapper.UserMapper;
 import edu.uta.movietalk.service.UserService;
 import edu.uta.movietalk.utils.JwtUtils;
@@ -30,6 +32,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
+    private final UserInfoMapper userInfoMapper;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -89,6 +92,10 @@ public class UserServiceImpl implements UserService {
 
         userMapper.insertSelective(user);
 
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUid(user.getId());
+        userInfoMapper.insertSelective(userInfo);
+
         return jwtUtils.encode(user.getId(), user.getRole());
     }
 
@@ -121,6 +128,10 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         userMapper.insertSelective(user);
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUid(user.getId());
+        userInfoMapper.insertSelective(userInfo);
 
         return user.getId();
     }
@@ -159,6 +170,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User oneByIdWithInfo(Integer uid) {
+
+        User user = userMapper.selectByPrimaryKey(uid);
+        user.setPassword(null);
+
+        UserInfo userInfo = userInfoMapper.selectByUid(uid);
+        user.setUserInfo(userInfo);
+
+        return user;
+    }
+
+    @Override
     public Page<User> pageByParam(PageDto pageDto) {
 
         Page<User> userPage = userMapper.listByParam(pageDto.putParam().getParamAsMap());
@@ -168,6 +191,7 @@ public class UserServiceImpl implements UserService {
 
         return userPage;
     }
+
     @Override
     public Integer update(User user) {
 

@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping(value = "/detail")
     public BaseResponse<User> detail(Authentication auth) {
 
-        return new ResultResponse<>(userService.oneById((Integer) auth.getPrincipal()));
+        return new ResultResponse<>(userService.oneByIdWithInfo((Integer) auth.getPrincipal()));
     }
 
     @GetMapping(value = "/refresh")

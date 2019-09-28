@@ -34,5 +34,7 @@ public class User implements Serializable {
 
     private UserGroup group;
 
+    private UserInfo userInfo;
+
     private static final long serialVersionUID = 1L;
 }
