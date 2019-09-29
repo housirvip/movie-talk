@@ -39,7 +39,7 @@ jwt:
 
 cors:
   path: /**
-  origins: http://localhost:8080,http://localhost:9090
+  origins: http://localhost:8080,http://localhost:9090,http://35.193.61.11
   methods: GET,POST,PUT,DELETE,HEAD,OPTIONS
   headers: Content-Type,Authorization,credential,X-XSRF-TOKEN
 
