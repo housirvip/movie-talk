@@ -39,60 +39,55 @@ public class MovieTests {
     }
 
     @Test
-    public void testMovieController() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/movie/now_playing"))
+    public void testNowPlaying() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/now_playing"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-        log.info(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
-    public void testMovieController1() throws Exception {
+    public void testDiscover() throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/movie/discover")
-                .param("year","2018")
-                .param("with_genres","War")
-                .param("sort_by","popularity")
-                .param("page","1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/discover")
+                .param("year", "2018")
+                .param("with_genres", "War")
+                .param("sort_by", "popularity")
+                .param("page", "1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-        log.info(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
-    public void testMovieController2() throws Exception {
+    public void testMovieSearch() throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/movie/search")
-                .param("query","star")
-                .param("page","1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/search")
+                .param("query", "star")
+                .param("page", "1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-        log.info(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
-    public void testMovieController3() throws Exception {
+    public void testMovieDetails() throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/movie/details/420818")
-                .param("movie_id","420818"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/details/420818")
+                .param("movie_id", "420818"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-        log.info(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
-    public void testMovieController4() throws Exception {
+    public void testMovieCredits() throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/movie/credits/420818")
-                .param("movie_id","420818"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/credits/420818")
+                .param("movie_id", "420818"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-        log.info(mvcResult.getResponse().getContentAsString());
     }
 
     @Test

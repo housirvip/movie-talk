@@ -51,11 +51,11 @@ public class UserController {
         friendInfo.setPhone(null);
         friendInfo.setEnable(null);
         friendInfo.setUpdateTime(null);
-        UserInfo frendUserInfo = friendInfo.getUserInfo();
-        frendUserInfo.setCreateTime(null);
-        frendUserInfo.setJob(null);
-        frendUserInfo.setState(null);
-        frendUserInfo.setUpdateTime(null);
+        UserInfo fiendUserInfo = friendInfo.getUserInfo();
+        fiendUserInfo.setCreateTime(null);
+        fiendUserInfo.setJob(null);
+        fiendUserInfo.setState(null);
+        fiendUserInfo.setUpdateTime(null);
 
         return new ResultResponse<>(friendInfo);
     }
