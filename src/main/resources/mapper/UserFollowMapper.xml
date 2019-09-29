@@ -22,10 +22,10 @@
     from user_follow
     where 1 = 1
     <if test="fromId != null">
-      and from_id = #{fromdId, jdbcType=INTEGER}
+      and from_id = #{fromId, jdbcType=INTEGER}
     </if>
     <if test="toId != null">
-      and to_id = #{fromdId, jdbcType=INTEGER}
+      and to_id = #{toId, jdbcType=INTEGER}
     </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
