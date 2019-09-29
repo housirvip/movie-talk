@@ -81,10 +81,10 @@ public class UserController {
     }
 
     @GetMapping(value = "/following")
-    public BaseResponse<Page> getFollowing(@RequestBody PageDto pageDto, Authentication auth) {
+    public BaseResponse<Page> getFollowing(PageDto pageDto, Authentication auth) {
 
         pageDto.getParamAsMap().put("fromId", auth.getPrincipal());
-        Page<UserFollow> userFollowPage=userService.pageUserFollow(pageDto);
+        Page<UserFollow> userFollowPage = userService.pageUserFollow(pageDto);
         return new PageResponse<>(userFollowPage, userFollowPage.getTotal());
     }
 
@@ -95,7 +95,7 @@ public class UserController {
         return new ResultResponse<>(result);
     }
 
-    @DeleteMapping (value = "/following")
+    @DeleteMapping(value = "/following")
     public BaseResponse<Boolean> deleteFollowing(@RequestParam int toId, Authentication auth) {
 
         Boolean result = userService.unfollowUser((Integer) auth.getPrincipal(), toId);

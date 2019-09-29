@@ -248,9 +248,9 @@ public class UserServiceImpl implements UserService {
     public Boolean unfollowUser(int fromId, int toId) {
 
 
-        Map<String,Object> map= ImmutableMap.of("fromId",fromId, "toId", toId);
+        Map<String, Object> map = ImmutableMap.of("fromId", fromId, "toId", toId);
 
-        userFollowMapper.selectBySelective(map).forEach(item-> userFollowMapper.deleteByPrimaryKey(item.getId()));
+        userFollowMapper.selectBySelective(map).forEach(item -> userFollowMapper.deleteByPrimaryKey(item.getId()));
 
         return true;
     }
