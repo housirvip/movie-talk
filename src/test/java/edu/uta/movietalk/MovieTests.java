@@ -60,10 +60,34 @@ public class MovieTests {
     }
 
     @Test
+    public void testDiscover1() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/discover")
+                .param("year", "2023")
+                .param("with_genres", "War")
+                .param("sort_by", "popularity")
+                .param("page", "1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
     public void testMovieSearch() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/search")
                 .param("query", "star")
+                .param("page", "1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void testMovieSearch1() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/search")
+                .param("query", "")
                 .param("page", "1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
