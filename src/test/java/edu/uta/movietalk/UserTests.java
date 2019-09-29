@@ -53,8 +53,4 @@ public class UserTests {
 //    }
 
 
-    @Test
-    public void contextLoads() {
-    }
-
 }

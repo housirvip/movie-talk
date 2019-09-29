@@ -51,9 +51,4 @@ public class AuthTests {
                 .andReturn();
     }
 
-
-    @Test
-    public void contextLoads() {
-    }
-
 }

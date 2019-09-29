@@ -90,8 +90,4 @@ public class MovieTests {
                 .andReturn();
     }
 
-    @Test
-    public void contextLoads() {
-    }
-
 }
