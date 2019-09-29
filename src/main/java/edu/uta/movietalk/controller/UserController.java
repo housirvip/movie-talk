@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author housirvip
  */
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/user")
 @RequiredArgsConstructor

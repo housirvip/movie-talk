@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author hxy
  */
-
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/movie")
 @RequiredArgsConstructor
