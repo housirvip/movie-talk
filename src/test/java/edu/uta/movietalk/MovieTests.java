@@ -25,12 +25,12 @@ public class MovieTests {
     private MockMvc mockMvc;
 
     @BeforeEach
-     void setup() {
+    void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(movieController).build();
     }
 
     @Test
-     void testNowPlaying() throws Exception {
+    void testNowPlaying() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/now_playing"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -38,7 +38,7 @@ public class MovieTests {
     }
 
     @Test
-     void testDiscover1() throws Exception {
+    void testDiscover1() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/discover")
                 .param("year", "2018")
@@ -86,8 +86,47 @@ public class MovieTests {
     }
 
     @Test
-    void testMovieDetails() throws Exception {
+    void testMovieCredits1() throws Exception {
 
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/credits/420818")
+                .param("movie_id", "420818"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    void testMovieCredits2() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/credits/420818"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    void testMovieCredits3() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/credits/4208181234")
+                .param("movie_id", "4208181234"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    void testMovieCredits4() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/credits/522938")
+                .param("movie_id", "522938"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+
+    @Test
+    void testMovieDetails1() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/details/420818")
                 .param("movie_id", "420818"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -96,10 +135,29 @@ public class MovieTests {
     }
 
     @Test
-    void testMovieCredits() throws Exception {
+    void testMovieDetails2() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/movie/credits/420818")
-                .param("movie_id", "420818"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/details/420818"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    void testMovieDetails3() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/details/522938")
+                .param("movie_id", "522938"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    void testMovieDetails4() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/details/4208171234")
+                .param("movie_id", "4208171234"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();

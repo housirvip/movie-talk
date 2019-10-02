@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 public class AuthTests {
 
     @Autowired
-    public AuthController authController;
+    AuthController authController;
 
     private MockMvc mockMvc;
 
@@ -33,11 +33,55 @@ public class AuthTests {
     }
 
     @Test
-    void testLogin() throws Exception {
+    void testLogin1() throws Exception {
 
         UserDto userDto = new UserDto();
         userDto.setAccount("asdasd");
         userDto.setPassword("asdasd");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtils.convertToString(userDto)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    void testLogin2() throws Exception {
+
+        UserDto userDto = new UserDto();
+        userDto.setAccount("kong_p");
+        userDto.setPassword("123");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtils.convertToString(userDto)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    void testLogin3() throws Exception {
+
+        UserDto userDto = new UserDto();
+        userDto.setAccount("hxy112292");
+        userDto.setPassword("123456");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtils.convertToString(userDto)))
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn().getResponse().getContentAsString();
+    }
+
+    @Test
+    void testLogin4() throws Exception {
+
+        UserDto userDto = new UserDto();
+        userDto.setAccount("hxy112292");
+        userDto.setPassword("123");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
