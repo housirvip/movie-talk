@@ -2,12 +2,10 @@ package edu.uta.movietalk;
 
 import edu.uta.movietalk.controller.MovieController;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -18,7 +16,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  * @author kong_p
  */
 @Slf4j
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class MovieTests {
 
@@ -27,13 +24,13 @@ public class MovieTests {
 
     private MockMvc mockMvc;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+     void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(movieController).build();
     }
 
     @Test
-    public void testNowPlaying() throws Exception {
+     void testNowPlaying() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/now_playing"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -41,7 +38,7 @@ public class MovieTests {
     }
 
     @Test
-    public void testDiscover() throws Exception {
+     void testDiscover1() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/discover")
                 .param("year", "2018")
@@ -54,7 +51,7 @@ public class MovieTests {
     }
 
     @Test
-    public void testDiscover1() throws Exception {
+    void testDiscover2() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/discover")
                 .param("year", "2023")
@@ -67,7 +64,7 @@ public class MovieTests {
     }
 
     @Test
-    public void testMovieSearch() throws Exception {
+    void testMovieSearch() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/search")
                 .param("query", "star")
@@ -78,18 +75,18 @@ public class MovieTests {
     }
 
     @Test
-    public void testMovieSearch1() throws Exception {
+    void testMovieSearchError() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/search")
                 .param("query", "")
                 .param("page", "1"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().is(422))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
 
     @Test
-    public void testMovieDetails() throws Exception {
+    void testMovieDetails() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/details/420818")
                 .param("movie_id", "420818"))
@@ -99,7 +96,7 @@ public class MovieTests {
     }
 
     @Test
-    public void testMovieCredits() throws Exception {
+    void testMovieCredits() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/credits/420818")
                 .param("movie_id", "420818"))
@@ -109,7 +106,7 @@ public class MovieTests {
     }
 
     @Test
-    public void contextLoads() {
+    void contextLoads() {
         log.debug("The test is running successful");
     }
 

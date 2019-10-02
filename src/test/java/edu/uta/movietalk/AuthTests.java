@@ -4,13 +4,11 @@ import edu.uta.movietalk.controller.AuthController;
 import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -21,7 +19,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  * @author kong_p
  */
 @Slf4j
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class AuthTests {
 
@@ -30,13 +27,13 @@ public class AuthTests {
 
     private MockMvc mockMvc;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(authController).build();
     }
 
     @Test
-    public void testLogin() throws Exception {
+    void testLogin() throws Exception {
 
         UserDto userDto = new UserDto();
         userDto.setAccount("asdasd");
@@ -52,7 +49,7 @@ public class AuthTests {
 
 
     @Test
-    public void contextLoads() {
+    void contextLoads() {
         log.debug("The test is running successful");
     }
 

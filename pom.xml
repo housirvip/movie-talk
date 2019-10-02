@@ -22,6 +22,11 @@
         <jwt.version>3.8.2</jwt.version>
         <guava.version>28.1-jre</guava.version>
         <mybatis-generator.version>1.3.7</mybatis-generator.version>
+        <allure.version>2.13.0</allure.version>
+        <junit.vintage.version>5.1.0</junit.vintage.version>
+        <junit.platform.version>1.2.0</junit.platform.version>
+        <allure.maven.version>2.9</allure.maven.version>
+        <surfire.version>2.22.0</surfire.version>
     </properties>
 
     <dependencies>
@@ -79,9 +84,24 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- exclude junit 4 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- junit 5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -104,19 +124,6 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-spring-boot -->
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-spring-boot</artifactId>
-            <version>2.9.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-junit4</artifactId>
-            <version>2.13.0</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
