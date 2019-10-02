@@ -135,31 +135,6 @@
                     <overwrite>true</overwrite>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
-                <configuration>
-                    <systemProperties>
-                        <property>
-                            <name>MYSQL_IP</name>
-                            <value>35.193.61.114</value>
-                        </property>
-                        <property>
-                            <name>MYSQL_PASSWD</name>
-                            <value>Google!#%&amp;(8517</value>
-                        </property>
-                        <property>
-                            <name>KEY_V3</name>
-                            <value>b33bdf51757b733056fffb055c751481</value>
-                        </property>
-                        <property>
-                            <name>KEY_V4</name>
-                            <value>eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMzNiZGY1MTc1N2I3MzMwNTZmZmZiMDU1Yzc1MTQ4MSIsInN1YiI6IjVkNzQ0MDU3MTI3Nzc4NTYyNDI3YzBlNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hpOPXgAKSeqEgE-ffyj-eFEHEm20H5OgR8K04Fj0EQI</value>
-                        </property>
-                    </systemProperties>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
