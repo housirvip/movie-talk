@@ -54,6 +54,7 @@ public class AuthTests {
 
     @Test
     public void contextLoads() {
+        log.debug("The test is running successful");
     }
 
 }

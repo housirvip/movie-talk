@@ -55,6 +55,7 @@ public class UserTests {
 
     @Test
     public void contextLoads() {
+        log.debug("The test is running successful");
     }
 
 }
