@@ -28,17 +28,18 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
 
         String token = request.getHeader(Constant.AUTHORIZATION);
 
-        //未认证
+        // if header of Authorization contains nothing or not start with 'Bearer '
         if (token == null || !token.startsWith(Constant.TOKEN_PREFIX)) {
             chain.doFilter(request, response);
             return;
         }
 
-        //jwt 验证失败
+        // jwt verify failed
         DecodedJWT jwt = jwtUtils.decode(token.replace(Constant.TOKEN_PREFIX, ""));
         if (jwt == null) {
             chain.doFilter(request, response);

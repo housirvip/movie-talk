@@ -7,8 +7,6 @@ import edu.uta.movietalk.entity.User;
 import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.entity.UserInfo;
 
-import java.util.List;
-
 /**
  * @author housirvip
  */

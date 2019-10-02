@@ -50,11 +50,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().exceptionHandling()
                 .authenticationEntryPoint((httpServletRequest, httpServletResponse, e) ->
+                        // rejected because of UNAUTHORIZED, user should login or has some role rather than annoymous
                         httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, ErrorMessage.UNAUTHORIZED))
                 .and().authorizeRequests()
+                // below path all permitted, needn't to check authorization
                 .antMatchers("/actuator/**", "/auth/**", "/user/friend", "/noauth/**", "/druid/**", "/movie/**").permitAll()
                 .antMatchers("/**").authenticated()
-//                .antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
+                // path start with '/admin' should has role ADMIN or ROOT
+                // .antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
                 .and().addFilter(new JwtAuthFilter(authenticationManager(), jwtUtils()));
     }
 }
