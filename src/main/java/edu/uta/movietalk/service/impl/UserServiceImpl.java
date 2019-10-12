@@ -55,15 +55,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(UserDto userDto) {
 
-        //验证码
-//        Preconditions.checkArgument(captchaService.verify(userDto.getCaptcha()), ErrorMessage.CAPTCHA_ERROR);
+        // CAPTCHA
+        // Preconditions.checkArgument(captchaService.verify(userDto.getCaptcha()), ErrorMessage.CAPTCHA_ERROR);
 
         User user = userMapper.selectByAccount(userDto.getAccount());
-        //账户未找到
+        // Account wan't found
         Preconditions.checkNotNull(user, ErrorMessage.ACCOUNT_NOT_FOUND);
-        //账户被封禁
+        // Account was banned
         Preconditions.checkArgument(user.getEnable(), ErrorMessage.ACCOUNT_DISABLED);
-        //验证密码
+        // verify username and password
         Preconditions.checkArgument(passwordEncoder.matches(userDto.getPassword(), user.getPassword()), ErrorMessage.ACCOUNT_PASSWORD_ERROR);
 
         return jwtUtils.encode(user.getId(), user.getRole());
@@ -73,12 +73,12 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public String register(UserDto userDto) {
 
-        //判断账户是否已经存在
+        // check if username, phone, or email already exist
         List<String> check = this.checkExist(userDto);
         Preconditions.checkArgument(check.size() == 0, check.toString());
 
-        //手机验证码
-//        Preconditions.checkArgument(smsService.verify(userDto.getCode(), userDto.getPhone()), ErrorMessage.SMS_ERROR);
+        // phone sms code
+        // Preconditions.checkArgument(smsService.verify(userDto.getCode(), userDto.getPhone()), ErrorMessage.SMS_ERROR);
 
         User user = new User();
         user.setCreateTime(new Date());
@@ -108,15 +108,15 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public Integer create(UserDto userDto) {
 
-        //判断账户是否已经存在
+        // check if username, phone, or email already exist
         List<String> check = this.checkExist(userDto);
         Preconditions.checkArgument(check.size() == 0, check.toString());
-        //判断用户组
+        // check if operator was Admin or Root.
         Preconditions.checkArgument(userDto.getGroup() != UserGroup.Admin && userDto.getGroup() != UserGroup.Root, Constant.ERROR);
 
         User user = new User();
 
-        //拷贝用户
+        // copy object
         BeanUtils.copyProperties(userDto, user);
 
         if (user.getGroup() == null) {
@@ -153,9 +153,9 @@ public class UserServiceImpl implements UserService {
     public Integer changePass(UserDto userDto) {
 
         User user = userMapper.selectByPrimaryKey(userDto.getId());
-        //账户未找到
+        // Account wasn't found
         Preconditions.checkNotNull(user, ErrorMessage.ACCOUNT_NOT_FOUND);
-        //验证密码
+        // verify username and password
         Preconditions.checkArgument(passwordEncoder.matches(userDto.getPassword(), user.getPassword()), ErrorMessage.ACCOUNT_PASSWORD_ERROR);
 
         user = new User();
