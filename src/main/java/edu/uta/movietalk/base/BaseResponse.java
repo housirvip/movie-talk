@@ -1,12 +1,13 @@
 package edu.uta.movietalk.base;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 /**
  * @author housirvip
  */
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 public class BaseResponse<T> {
 

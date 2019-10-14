@@ -251,7 +251,7 @@ public class UserServiceImpl implements UserService {
 
         userFollowMapper.selectBySelective(map).forEach(item -> userFollowMapper.deleteByPrimaryKey(item.getId()));
 
-        return true;
+        return Boolean.TRUE;
     }
 
     @Override

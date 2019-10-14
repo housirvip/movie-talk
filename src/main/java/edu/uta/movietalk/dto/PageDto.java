@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 import edu.uta.movietalk.constant.Constant;
 import edu.uta.movietalk.utils.JsonUtils;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -13,7 +15,9 @@ import java.util.Optional;
 /**
  * @author housirvip
  */
-@Data
+@Getter
+@Setter
+@ToString
 public class PageDto implements Serializable {
 
     private Integer pageNum;
@@ -34,7 +38,7 @@ public class PageDto implements Serializable {
 
     public PageDto putDisable() {
 
-        paramAsMap.put(Constant.ENABLE, false);
+        paramAsMap.put(Constant.ENABLE, Boolean.FALSE);
 
         return this;
     }

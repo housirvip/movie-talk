@@ -1,6 +1,8 @@
 package edu.uta.movietalk.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,7 +10,9 @@ import java.util.Date;
 /**
  * @author hxy
  */
-@Data
+@Getter
+@Setter
+@ToString
 public class ReviewReply implements Serializable {
     private Integer id;
 
@@ -21,4 +25,12 @@ public class ReviewReply implements Serializable {
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = (Date)createTime.clone();
+    }
+
+    public Date getCreateTime() {
+        return (Date)createTime.clone();
+    }
 }
