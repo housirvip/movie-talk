@@ -52,6 +52,14 @@ public interface ReviewService {
     Page<Review> pageReviewByuid(PageDto pageDto);
 
     /**
+     * user can find movie reviews by following
+     *
+     * @param pageDto PageDto
+     * @return Review
+     */
+    Page<Review> pageReviewByFollowing(PageDto pageDto);
+
+    /**
      * user can find movie reviews by uid
      *
      * @param pageDto pageDto

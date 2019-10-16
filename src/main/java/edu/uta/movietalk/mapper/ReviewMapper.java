@@ -53,6 +53,14 @@ public interface ReviewMapper {
      */
     Page<Review> selectByPrimaryKeySelective(Map<String, Object> param);
 
+    /**
+     * select by review
+     *
+     * @param param PageDto
+     * @return Review
+     */
+    Page<Review> selectByFollowing(Map<String, Object> param);
+
 
     /**
      * update by a review id, selective

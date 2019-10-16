@@ -57,6 +57,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Page<Review> pageReviewByFollowing(PageDto pageDto) {
+
+        return reviewMapper.selectByFollowing(pageDto.putParam().getParamAsMap());
+    }
+
+    @Override
     public Page<Review> findReviewBySelective(PageDto pageDto) {
 
         return reviewMapper.selectByPrimaryKeySelective(pageDto.putParam().getParamAsMap());

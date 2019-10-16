@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="edu.uta.movietalk.entity.Review">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="mid" jdbcType="INTEGER" property="mid" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="vote" jdbcType="INTEGER" property="vote" />
@@ -14,7 +15,7 @@
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, uid, mid, title, vote, create_time, update_time
+    review.id, review.uid, `user`.username, review.mid, review.title, review.vote, review.create_time, review.update_time
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -24,24 +25,37 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from review
-    where id = #{id,jdbcType=INTEGER}
+    from review, `user`
+    where review.id = #{id,jdbcType=INTEGER} and review.uid = `user`.id
   </select>
   <select id="selectByPrimaryKeySelective" parameterType="map" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from review
+    from review, `user`
     where 1=1
     <if test="id != null">
-      and id = #{id,jdbcType=INTEGER}
+      and review.id = #{id,jdbcType=INTEGER} and review.uid = `user`.id
     </if>
     <if test="uid != null">
-      and uid = #{uid,jdbcType=INTEGER}
+      and uid = #{uid,jdbcType=INTEGER} and review.uid = `user`.id
     </if>
     <if test="mid != null">
-      and mid = #{mid,jdbcType=INTEGER}
+      and mid = #{mid,jdbcType=INTEGER} and review.uid = `user`.id
+    </if>
+  </select>
+  <select id="selectByFollowing" parameterType="map" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from review, `user`, user_follow
+    where 1=1
+    <if test="uid != null">
+      and user_follow.from_id = #{uid,jdbcType=INTEGER}
+      and review.uid = user_follow.to_id
+      and review.uid = `user`.id
     </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

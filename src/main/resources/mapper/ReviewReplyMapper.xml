@@ -4,29 +4,30 @@
   <resultMap id="BaseResultMap" type="edu.uta.movietalk.entity.ReviewReply">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="rid" jdbcType="INTEGER" property="rid" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, uid, rid, content, create_time
+    review_reply.id, review_reply.uid, `user`.username, review_reply.rid, review_reply.content, review_reply.create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from review_reply
-    where id = #{id,jdbcType=INTEGER}
+    from review_reply,`user`
+    where review_reply.id = #{id,jdbcType=INTEGER} and review_reply.uid = `user`.id
   </select>
   <select id="selectByPrimaryKeySelective" parameterType="map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from review_reply
+    from review_reply, `user`
     where 1=1
     <if test="id != null">
-      and id = #{id,jdbcType=INTEGER}
+      and review_reply.id = #{id,jdbcType=INTEGER} and review_reply.uid = `user`.id
     </if>
     <if test="rid != null">
-      and rid = #{rid,jdbcType=INTEGER}
+      and rid = #{rid,jdbcType=INTEGER} and review_reply.uid = `user`.id
     </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

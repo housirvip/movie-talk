@@ -45,6 +45,15 @@ public class ReviewController {
         return new PageResponse<>(reviewPage, reviewPage.getTotal());
     }
 
+    @GetMapping(value = "/getByFollowing")
+    public BaseResponse<Page> getReviewByFollowing(PageDto pageDto, Authentication auth) {
+
+        pageDto.putUid((Integer) auth.getPrincipal());
+
+        Page<Review> reviewPage = reviewService.pageReviewByFollowing(pageDto);
+        return new PageResponse<>(reviewPage, reviewPage.getTotal());
+    }
+
     @PostMapping(value = "")
     public BaseResponse<Integer> createReview(@RequestBody Review review, Authentication auth) {
 

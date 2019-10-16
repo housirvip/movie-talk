@@ -18,6 +18,8 @@ public class Review implements Serializable {
 
     private Integer uid;
 
+    private String username;
+
     private Integer mid;
 
     private String title;

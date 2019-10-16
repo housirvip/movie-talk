@@ -18,6 +18,8 @@ public class ReviewReply implements Serializable {
 
     private Integer uid;
 
+    private String username;
+
     private Integer rid;
 
     private String content;
