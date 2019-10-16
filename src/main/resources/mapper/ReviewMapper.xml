@@ -55,7 +55,6 @@
     from review, `user`, user_follow
     where 1=1
     and review.uid = `user`.id
-    and review.id = review_like.rid
     <if test="uid != null">
       and user_follow.from_id = #{uid,jdbcType=INTEGER}
       and review.uid = user_follow.to_id
@@ -63,7 +62,7 @@
   </select>
   <select id="countReceivedReviewLikeByUid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     select
-    count(like_total)
+    SUM(like_total)
     from review
     where uid = #{uid,jdbcType=INTEGER}
   </select>
