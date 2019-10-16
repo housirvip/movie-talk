@@ -8,6 +8,7 @@ import edu.uta.movietalk.base.ResultResponse;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.Register;
 import edu.uta.movietalk.entity.Review;
+import edu.uta.movietalk.entity.ReviewLike;
 import edu.uta.movietalk.entity.ReviewReply;
 import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.service.ReviewService;
@@ -17,8 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static edu.uta.movietalk.constant.ErrorMessage.REVIEW_NOT_FOUND;
-import static edu.uta.movietalk.constant.ErrorMessage.REVIEW_REPLY_NOT_FOUND;
+import static edu.uta.movietalk.constant.ErrorMessage.*;
 import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 /**
