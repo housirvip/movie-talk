@@ -8,6 +8,7 @@ import edu.uta.movietalk.base.ResultResponse;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.Register;
 import edu.uta.movietalk.entity.Review;
+import edu.uta.movietalk.entity.ReviewReply;
 import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.service.ReviewService;
 import lombok.Data;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static edu.uta.movietalk.constant.ErrorMessage.REVIEW_NOT_FOUND;
+import static edu.uta.movietalk.constant.ErrorMessage.REVIEW_REPLY_NOT_FOUND;
 import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 /**
@@ -75,5 +77,46 @@ public class ReviewController {
         Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.updateReview(review));
+    }
+
+    @GetMapping(value = "/reply/getByRid")
+    public BaseResponse<Page> getReviewReplyByRid(PageDto pageDto, Authentication auth) {
+
+        Page<ReviewReply> replyPage = reviewService.pageReviewReplyByrid(pageDto);
+        return new PageResponse<>(replyPage, replyPage.getTotal());
+    }
+
+    @PostMapping(value = "/reply")
+    public BaseResponse<Integer> createReviewReply(@RequestBody ReviewReply reply, Authentication auth) {
+
+        reply.setUid((Integer) auth.getPrincipal());
+
+        return new ResultResponse<>(reviewService.createReviewReply(reply));
+    }
+
+    @DeleteMapping(value = "/reply")
+    public BaseResponse<Integer> deleteReviewReply(@RequestParam Integer id, Authentication auth) {
+
+        PageDto pageDto = new PageDto();
+        pageDto.getParamAsMap().put("id", id);
+        pageDto.putUid((Integer) auth.getPrincipal());
+
+        Page<ReviewReply> replyPage=  reviewService.findReviewReplyBySelective(pageDto);
+        Preconditions.checkArgument(!replyPage.isEmpty(),REVIEW_REPLY_NOT_FOUND);
+
+        return new ResultResponse<>(reviewService.deleteReviewReply(id));
+    }
+
+    @PutMapping(value = "/reply")
+    public BaseResponse<Integer> updateReviewReply(@RequestBody ReviewReply reply, Authentication auth) {
+
+        PageDto pageDto = new PageDto();
+        pageDto.getParamAsMap().put("id", reply.getId());
+        pageDto.putUid((Integer) auth.getPrincipal());
+
+        Page<ReviewReply> reviewPage=  reviewService.findReviewReplyBySelective(pageDto);
+        Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_REPLY_NOT_FOUND);
+
+        return new ResultResponse<>(reviewService.updateReviewReply(reply));
     }
 }

@@ -1,7 +1,10 @@
 package edu.uta.movietalk.mapper;
 
+import com.github.pagehelper.Page;
 import edu.uta.movietalk.entity.ReviewReply;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.Map;
 
 /**
  * @author hxy
@@ -39,6 +42,14 @@ public interface ReviewReplyMapper {
      * @return ReviewReply
      */
     ReviewReply selectByPrimaryKey(Integer id);
+
+    /**
+     * select by review
+     *
+     * @param param PageDto
+     * @return Review
+     */
+    Page<ReviewReply> selectByPrimaryKeySelective(Map<String, Object> param);
 
     /**
      * update by a reply id, selective
