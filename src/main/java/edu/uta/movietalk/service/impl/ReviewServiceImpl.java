@@ -3,7 +3,9 @@ package edu.uta.movietalk.service.impl;
 import com.github.pagehelper.Page;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.entity.Review;
+import edu.uta.movietalk.entity.ReviewLike;
 import edu.uta.movietalk.entity.ReviewReply;
+import edu.uta.movietalk.mapper.ReviewLikeMapper;
 import edu.uta.movietalk.mapper.ReviewMapper;
 import edu.uta.movietalk.mapper.ReviewReplyMapper;
 import edu.uta.movietalk.service.ReviewService;
@@ -23,6 +25,8 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
 
     private final ReviewReplyMapper replyMapper;
+
+    private final ReviewLikeMapper likeMapper;
 
     @Override
     public Integer createReview(Review review) {
@@ -99,5 +103,49 @@ public class ReviewServiceImpl implements ReviewService {
     public Page<ReviewReply> findReviewReplyBySelective(PageDto pageDto) {
 
         return replyMapper.selectByPrimaryKeySelective(pageDto.putParam().getParamAsMap());
+    }
+
+    @Override
+    public Integer createReviewLike(ReviewLike like) {
+
+        Integer likeTotal = reviewMapper.selectByPrimaryKey(like.getRid()).getLikeTotal() + 1;
+        Review review = new Review();
+        review.setId(like.getRid());
+        review.setLikeTotal(likeTotal);
+        review.setUpdateTime(new Date());
+
+        Integer result = likeMapper.insert(like);
+
+        reviewMapper.updateByPrimaryKeySelective(review);
+
+        return result;
+    }
+
+    @Override
+    public Integer deleteReviewLike(Integer id) {
+
+        Integer rid = likeMapper.selectByPrimaryKey(id).getRid();
+        Integer likeTotal = reviewMapper.selectByPrimaryKey(rid).getLikeTotal() - 1;
+        Review review = new Review();
+        review.setId(rid);
+        review.setLikeTotal(likeTotal);
+        review.setUpdateTime(new Date());
+
+        Integer result = likeMapper.deleteByPrimaryKey(id);
+
+        reviewMapper.updateByPrimaryKeySelective(review);
+
+        return result;
+    }
+
+    @Override
+    public Integer countReceivedReviewLikeByUid(Integer uid) {
+        return reviewMapper.countReceivedReviewLikeByUid(uid);
+    }
+
+    @Override
+    public Page<ReviewLike> findLikeBySelective(PageDto pageDto) {
+
+        return likeMapper.selectByPrimaryKeySelective(pageDto.putParam().getParamAsMap());
     }
 }

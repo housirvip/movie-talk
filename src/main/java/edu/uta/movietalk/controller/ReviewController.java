@@ -8,6 +8,7 @@ import edu.uta.movietalk.base.ResultResponse;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.Register;
 import edu.uta.movietalk.entity.Review;
+import edu.uta.movietalk.entity.ReviewLike;
 import edu.uta.movietalk.entity.ReviewReply;
 import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.service.ReviewService;
@@ -17,8 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static edu.uta.movietalk.constant.ErrorMessage.REVIEW_NOT_FOUND;
-import static edu.uta.movietalk.constant.ErrorMessage.REVIEW_REPLY_NOT_FOUND;
+import static edu.uta.movietalk.constant.ErrorMessage.*;
 import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 /**
@@ -127,5 +127,40 @@ public class ReviewController {
         Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_REPLY_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.updateReviewReply(reply));
+    }
+
+    @PostMapping(value = "/like")
+    public BaseResponse<Integer> createReviewLike(@RequestBody ReviewLike like, Authentication auth) {
+
+        PageDto pageDto = new PageDto();
+        pageDto.getParamAsMap().put("rid", like.getRid());
+        pageDto.putUid((Integer) auth.getPrincipal());
+
+        Page<ReviewLike> likePage=  reviewService.findLikeBySelective(pageDto);
+        Preconditions.checkArgument(likePage.isEmpty(),REVIEW_LIKE_AGAIN);
+        like.setUid((Integer) auth.getPrincipal());
+
+        return new ResultResponse<>(reviewService.createReviewLike(like));
+    }
+
+    @DeleteMapping(value = "/like")
+    public BaseResponse<Integer> deleteReviewLike(@RequestParam Integer id, Authentication auth) {
+
+        PageDto pageDto = new PageDto();
+        pageDto.getParamAsMap().put("id", id);
+        pageDto.putUid((Integer) auth.getPrincipal());
+
+        Page<ReviewLike> likePage=  reviewService.findLikeBySelective(pageDto);
+        Preconditions.checkArgument(!likePage.isEmpty(),REVIEW_LIKE_NOT_FOUND);
+
+        return new ResultResponse<>(reviewService.deleteReviewLike(id));
+    }
+
+    @GetMapping(value = "/receivedLikeTotal")
+    public BaseResponse<Integer> receivedLikeTotal(Authentication auth) {
+
+        Integer result =  reviewService.countReceivedReviewLikeByUid((Integer) auth.getPrincipal());
+
+        return new ResultResponse<>(result);
     }
 }

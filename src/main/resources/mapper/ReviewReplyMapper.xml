@@ -23,11 +23,12 @@
     <include refid="Base_Column_List" />
     from review_reply, `user`
     where 1=1
+    and review_reply.uid = `user`.id
     <if test="id != null">
-      and review_reply.id = #{id,jdbcType=INTEGER} and review_reply.uid = `user`.id
+      and review_reply.id = #{id,jdbcType=INTEGER}
     </if>
     <if test="rid != null">
-      and rid = #{rid,jdbcType=INTEGER} and review_reply.uid = `user`.id
+      and rid = #{rid,jdbcType=INTEGER}
     </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

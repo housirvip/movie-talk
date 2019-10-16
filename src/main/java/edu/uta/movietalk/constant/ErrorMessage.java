@@ -23,6 +23,10 @@ public class ErrorMessage {
     public static final String USER_LEVEL_LIMIT = "USER_LEVEL_LIMIT";
     public static final String USER_GROUP_LIMIT = "USER_GROUP_LIMIT";
 
+    public static final String USER_FOLLOWING_ITSELF = "USER_FOLLOWING_ITSELF";
+
     public static final String REVIEW_NOT_FOUND = "REVIEW_NOT_FOUND";
     public static final String REVIEW_REPLY_NOT_FOUND = "REVIEW_REPLY_NOT_FOUND";
+    public static final String REVIEW_LIKE_NOT_FOUND = "REVIEW_LIKE_NOT_FOUND";
+    public static final String REVIEW_LIKE_AGAIN = "REVIEW_LIKE_AGAIN";
 }

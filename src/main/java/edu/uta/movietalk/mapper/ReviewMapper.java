@@ -78,4 +78,12 @@ public interface ReviewMapper {
      * @return int
      */
     int updateByPrimaryKey(Review record);
+
+    /**
+     * count Received like by uid
+     *
+     * @param uid Integer
+     * @return int
+     */
+    int countReceivedReviewLikeByUid(Integer uid);
 }

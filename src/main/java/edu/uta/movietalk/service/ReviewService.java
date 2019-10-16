@@ -3,6 +3,7 @@ package edu.uta.movietalk.service;
 import com.github.pagehelper.Page;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.entity.Review;
+import edu.uta.movietalk.entity.ReviewLike;
 import edu.uta.movietalk.entity.ReviewReply;
 
 /**
@@ -107,4 +108,36 @@ public interface ReviewService {
      * @return ReviewReply
      */
     Page<ReviewReply> findReviewReplyBySelective(PageDto pageDto);
+
+    /**
+     * user can create a review like
+     *
+     * @param like ReviewLike
+     * @return Integer
+     */
+    Integer createReviewLike(ReviewLike like);
+
+    /**
+     * user can delete a review like
+     *
+     * @param id Integer
+     * @return Integer
+     */
+    Integer deleteReviewLike(Integer id);
+
+    /**
+     * count like by uid
+     *
+     * @param uid Integer
+     * @return Integer
+     */
+    Integer countReceivedReviewLikeByUid(Integer uid);
+
+    /**
+     * find like by id
+     *
+     * @param pageDto PageDto
+     * @return ReviewLike
+     */
+    Page<ReviewLike> findLikeBySelective(PageDto pageDto);
 }

@@ -1,7 +1,9 @@
 package edu.uta.movietalk.controller;
 
 import com.github.pagehelper.Page;
+import com.google.common.base.Preconditions;
 import edu.uta.movietalk.base.BaseResponse;
+import edu.uta.movietalk.base.ErrorResponse;
 import edu.uta.movietalk.base.PageResponse;
 import edu.uta.movietalk.base.ResultResponse;
 import edu.uta.movietalk.dto.ChangePass;
@@ -15,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import static edu.uta.movietalk.constant.ErrorMessage.REVIEW_LIKE_NOT_FOUND;
+import static edu.uta.movietalk.constant.ErrorMessage.USER_FOLLOWING_ITSELF;
 
 /**
  * @author housirvip
@@ -91,6 +96,7 @@ public class UserController {
     @PutMapping(value = "/following")
     public BaseResponse<Integer> createFollowing(@RequestParam int toId, Authentication auth) {
 
+        Preconditions.checkArgument(toId != (Integer) auth.getPrincipal(),USER_FOLLOWING_ITSELF);
         Integer result = userService.followUser((Integer) auth.getPrincipal(), toId);
         return new ResultResponse<>(result);
     }

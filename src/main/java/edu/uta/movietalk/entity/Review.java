@@ -32,5 +32,7 @@ public class Review implements Serializable {
 
     private String content;
 
+    private Integer likeTotal;
+
     private static final long serialVersionUID = 1L;
 }

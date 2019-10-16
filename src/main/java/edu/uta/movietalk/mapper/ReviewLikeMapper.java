@@ -1,7 +1,10 @@
 package edu.uta.movietalk.mapper;
 
+import com.github.pagehelper.Page;
 import edu.uta.movietalk.entity.ReviewLike;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.Map;
 
 /**
  * @author hxy
@@ -41,6 +44,14 @@ public interface ReviewLikeMapper {
      * @return ReviewLike
      */
     ReviewLike selectByPrimaryKey(Integer id);
+
+    /**
+     * select by selective
+     *
+     * @param param Map
+     * @return ReviewLike
+     */
+    Page<ReviewLike> selectByPrimaryKeySelective(Map<String, Object> param);
 
 
     /**
