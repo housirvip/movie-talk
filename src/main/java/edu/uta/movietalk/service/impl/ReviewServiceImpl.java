@@ -9,7 +9,6 @@ import edu.uta.movietalk.mapper.ReviewLikeMapper;
 import edu.uta.movietalk.mapper.ReviewMapper;
 import edu.uta.movietalk.mapper.ReviewReplyMapper;
 import edu.uta.movietalk.service.ReviewService;
-import edu.uta.movietalk.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +26,12 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewReplyMapper replyMapper;
 
     private final ReviewLikeMapper likeMapper;
+
+    @Override
+    public Review getById(Integer id) {
+
+        return reviewMapper.selectByPrimaryKey(id);
+    }
 
     @Override
     public Integer createReview(Review review) {

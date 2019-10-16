@@ -13,7 +13,7 @@ public enum UserGroup {
     /**
      * Primary
      */
-    Limited("Limited"),
+    Limited("limited"),
     /**
      * User
      */
