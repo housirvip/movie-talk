@@ -31,20 +31,4 @@ public class Review implements Serializable {
     private String content;
 
     private static final long serialVersionUID = 1L;
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = (Date)createTime.clone();
-    }
-
-    public Date getCreateTime() {
-        return (Date)createTime.clone();
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = (Date)updateTime.clone();
-    }
-
-    public Date getUpdateTime() {
-        return (Date)updateTime.clone();
-    }
 }

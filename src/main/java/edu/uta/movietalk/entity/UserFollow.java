@@ -23,12 +23,4 @@ public class UserFollow implements Serializable {
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = (Date)createTime.clone();
-    }
-
-    public Date getCreateTime() {
-        return (Date)createTime.clone();
-    }
 }

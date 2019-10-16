@@ -42,20 +42,20 @@ public class UserController {
     public BaseResponse<User> friend(@RequestParam int id) {
 
         User friendInfo = userService.oneByIdWithInfo(id);
-        friendInfo.setPassword(null);
-        friendInfo.setCreateTime(null);
-        friendInfo.setGroup(null);
-        friendInfo.setRole(null);
-        friendInfo.setEmail(null);
-        friendInfo.setLevel(null);
-        friendInfo.setPhone(null);
-        friendInfo.setEnable(null);
-        friendInfo.setUpdateTime(null);
-        UserInfo fiendUserInfo = friendInfo.getUserInfo();
-        fiendUserInfo.setCreateTime(null);
-        fiendUserInfo.setJob(null);
-        fiendUserInfo.setState(null);
-        fiendUserInfo.setUpdateTime(null);
+//        friendInfo.setPassword(null);
+//        friendInfo.setCreateTime(null);
+//        friendInfo.setGroup(null);
+//        friendInfo.setRole(null);
+//        friendInfo.setEmail(null);
+//        friendInfo.setLevel(null);
+//        friendInfo.setPhone(null);
+//        friendInfo.setEnable(null);
+//        friendInfo.setUpdateTime(null);
+//        UserInfo fiendUserInfo = friendInfo.getUserInfo();
+//        fiendUserInfo.setCreateTime(null);
+//        fiendUserInfo.setJob(null);
+//        fiendUserInfo.setState(null);
+//        fiendUserInfo.setUpdateTime(null);
 
         return new ResultResponse<>(friendInfo);
     }
