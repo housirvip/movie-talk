@@ -6,20 +6,15 @@ import edu.uta.movietalk.base.BaseResponse;
 import edu.uta.movietalk.base.PageResponse;
 import edu.uta.movietalk.base.ResultResponse;
 import edu.uta.movietalk.dto.PageDto;
-import edu.uta.movietalk.dto.Register;
 import edu.uta.movietalk.entity.Review;
 import edu.uta.movietalk.entity.ReviewReply;
-import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.service.ReviewService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static edu.uta.movietalk.constant.ErrorMessage.REVIEW_NOT_FOUND;
 import static edu.uta.movietalk.constant.ErrorMessage.REVIEW_REPLY_NOT_FOUND;
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 /**
  * @author hxy
@@ -31,15 +26,21 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    @GetMapping(value = "/getById/{reviewId}")
+    public BaseResponse<Review> getReviewById(@PathVariable("reviewId") Integer reviewId) {
+
+        return new ResultResponse<>(reviewService.getById(reviewId));
+    }
+
     @GetMapping(value = "/getByMid")
-    public BaseResponse<Page> getReviewByMid(PageDto pageDto, Authentication auth) {
+    public BaseResponse<Page> getReviewByMid(PageDto pageDto) {
 
         Page<Review> reviewPage = reviewService.pageReviewBymid(pageDto);
         return new PageResponse<>(reviewPage, reviewPage.getTotal());
     }
 
     @GetMapping(value = "/getByUid")
-    public BaseResponse<Page> getReviewByUid(PageDto pageDto, Authentication auth) {
+    public BaseResponse<Page> getReviewByUid(PageDto pageDto) {
 
         Page<Review> reviewPage = reviewService.pageReviewByuid(pageDto);
         return new PageResponse<>(reviewPage, reviewPage.getTotal());
@@ -69,8 +70,8 @@ public class ReviewController {
         pageDto.getParamAsMap().put("id", id);
         pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<Review> reviewPage=  reviewService.findReviewBySelective(pageDto);
-        Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_NOT_FOUND);
+        Page<Review> reviewPage = reviewService.findReviewBySelective(pageDto);
+        Preconditions.checkArgument(!reviewPage.isEmpty(), REVIEW_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.deleteReview(id));
     }
@@ -82,8 +83,8 @@ public class ReviewController {
         pageDto.getParamAsMap().put("id", review.getId());
         pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<Review> reviewPage=  reviewService.findReviewBySelective(pageDto);
-        Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_NOT_FOUND);
+        Page<Review> reviewPage = reviewService.findReviewBySelective(pageDto);
+        Preconditions.checkArgument(!reviewPage.isEmpty(), REVIEW_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.updateReview(review));
     }
@@ -110,8 +111,8 @@ public class ReviewController {
         pageDto.getParamAsMap().put("id", id);
         pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<ReviewReply> replyPage=  reviewService.findReviewReplyBySelective(pageDto);
-        Preconditions.checkArgument(!replyPage.isEmpty(),REVIEW_REPLY_NOT_FOUND);
+        Page<ReviewReply> replyPage = reviewService.findReviewReplyBySelective(pageDto);
+        Preconditions.checkArgument(!replyPage.isEmpty(), REVIEW_REPLY_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.deleteReviewReply(id));
     }
@@ -123,8 +124,8 @@ public class ReviewController {
         pageDto.getParamAsMap().put("id", reply.getId());
         pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<ReviewReply> reviewPage=  reviewService.findReviewReplyBySelective(pageDto);
-        Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_REPLY_NOT_FOUND);
+        Page<ReviewReply> reviewPage = reviewService.findReviewReplyBySelective(pageDto);
+        Preconditions.checkArgument(!reviewPage.isEmpty(), REVIEW_REPLY_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.updateReviewReply(reply));
     }

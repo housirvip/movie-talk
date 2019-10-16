@@ -10,6 +10,13 @@ import edu.uta.movietalk.entity.ReviewReply;
  */
 public interface ReviewService {
 
+    /**
+     * user can get a movie review
+     *
+     * @param id Integer
+     * @return Integer
+     */
+    Review getById(Integer id);
 
     /**
      * user can create a movie review
