@@ -132,13 +132,6 @@ public interface ReviewService {
      */
     Integer deleteReviewLike(Integer id);
 
-    /**
-     * count like by uid
-     *
-     * @param uid Integer
-     * @return Integer
-     */
-    Integer countReceivedReviewLikeByUid(Integer uid);
 
     /**
      * find like by id

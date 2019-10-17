@@ -2,6 +2,7 @@ package edu.uta.movietalk.mapper;
 
 import com.github.pagehelper.Page;
 import edu.uta.movietalk.entity.User;
+import edu.uta.movietalk.entity.UserRecord;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Map;
@@ -118,4 +119,12 @@ public interface UserMapper {
      * @return Page
      */
     Page<User> listByParam(Map<String, Object> param);
+
+    /**
+     * select user record by uid
+     *
+     * @param uid Integer
+     * @return Page
+     */
+    UserRecord selectUserRecord(Integer uid);
 }

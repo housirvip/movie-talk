@@ -12,6 +12,7 @@ import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.entity.User;
 import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.entity.UserInfo;
+import edu.uta.movietalk.entity.UserRecord;
 import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -106,5 +107,11 @@ public class UserController {
 
         Boolean result = userService.unfollowUser((Integer) auth.getPrincipal(), toId);
         return new ResultResponse<>(result);
+    }
+
+    @GetMapping(value = "/userRecord")
+    public BaseResponse<UserRecord> selectUserRecord(Authentication auth) {
+
+        return new ResultResponse<>(userService.selectUserRecord((Integer) auth.getPrincipal()));
     }
 }

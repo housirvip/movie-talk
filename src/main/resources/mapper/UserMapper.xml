@@ -13,6 +13,12 @@
         <result column="level" jdbcType="INTEGER" property="level"/>
         <result column="group" jdbcType="VARCHAR" property="group"/>
     </resultMap>
+    <resultMap id="UserRecordResultMap" type="edu.uta.movietalk.entity.UserRecord">
+        <result column="like_total" jdbcType="INTEGER" javaType="java.lang.Integer" property="likeTotal"/>
+        <result column="review_total" jdbcType="INTEGER" javaType="java.lang.Integer" property="reviewTotal"/>
+        <result column="reply_total" jdbcType="INTEGER" javaType="java.lang.Integer" property="replyTotal"/>
+        <result column="follow_total" jdbcType="INTEGER" javaType="java.lang.Integer" property="followTotal"/>
+    </resultMap>
     <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="edu.uta.movietalk.entity.User">
         <result column="role" jdbcType="LONGVARCHAR" property="role"
                 typeHandler="edu.uta.movietalk.typehandler.ListTypeHandler"/>
@@ -88,6 +94,15 @@
         from user
         where phone = #{phone,jdbcType=VARCHAR}
         limit 1
+    </select>
+    <select id="selectUserRecord" parameterType="java.lang.Integer" resultMap="UserRecordResultMap">
+        SELECT
+	    SUM( review.like_total ) AS like_total,
+	    SUM( review.reply_total ) AS reply_total,
+	    COUNT( review.id ) AS review_total,
+        (SELECT COUNT( user_follow.from_id ) FROM user_follow WHERE user_follow.to_id = #{uid,jdbcType=INTEGER}) AS follow_total
+        FROM review
+        WHERE review.uid = #{uid,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete

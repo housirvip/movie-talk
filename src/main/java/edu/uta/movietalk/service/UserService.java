@@ -6,6 +6,7 @@ import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.entity.User;
 import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.entity.UserInfo;
+import edu.uta.movietalk.entity.UserRecord;
 
 /**
  * @author housirvip
@@ -118,4 +119,12 @@ public interface UserService {
      * @return Page<UserFollow>
      */
     Page<UserFollow> pageUserFollow(PageDto pageDto);
+
+    /**
+     * select user Record
+     *
+     * @param uid Integer
+     * @return UserRecord
+     */
+    UserRecord selectUserRecord(Integer uid);
 }

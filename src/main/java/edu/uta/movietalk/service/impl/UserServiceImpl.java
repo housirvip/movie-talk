@@ -12,6 +12,7 @@ import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.entity.User;
 import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.entity.UserInfo;
+import edu.uta.movietalk.entity.UserRecord;
 import edu.uta.movietalk.mapper.UserFollowMapper;
 import edu.uta.movietalk.mapper.UserInfoMapper;
 import edu.uta.movietalk.mapper.UserMapper;
@@ -258,5 +259,10 @@ public class UserServiceImpl implements UserService {
     public Page<UserFollow> pageUserFollow(PageDto pageDto) {
 
         return userFollowMapper.selectBySelective(pageDto.putParam().getParamAsMap());
+    }
+
+    @Override
+    public UserRecord selectUserRecord(Integer uid) {
+        return userMapper.selectUserRecord(uid);
     }
 }

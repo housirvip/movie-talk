@@ -37,6 +37,8 @@ public class ReviewServiceImpl implements ReviewService {
     public Integer createReview(Review review) {
 
         review.setCreateTime(new Date());
+        review.setLikeTotal(0);
+        review.setReplyTotal(0);
 
         return reviewMapper.insertSelective(review);
     }
@@ -82,7 +84,16 @@ public class ReviewServiceImpl implements ReviewService {
 
         reply.setCreateTime(new Date());
 
-        return replyMapper.insertSelective(reply);
+        Integer replyTotal = reviewMapper.selectByPrimaryKey(reply.getRid()).getReplyTotal() + 1;
+        Review review = new Review();
+        review.setId(reply.getRid());
+        review.setReplyTotal(replyTotal);
+        review.setUpdateTime(new Date());
+
+        Integer result = replyMapper.insertSelective(reply);
+
+        reviewMapper.updateByPrimaryKeySelective(review);
+        return result;
     }
 
     @Override
@@ -94,7 +105,17 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Integer deleteReviewReply(Integer id) {
 
-        return replyMapper.deleteByPrimaryKey(id);
+        Integer rid = replyMapper.selectByPrimaryKey(id).getRid();
+        Integer replyTotal = reviewMapper.selectByPrimaryKey(rid).getReplyTotal() - 1;
+        Review review = new Review();
+        review.setId(rid);
+        review.setReplyTotal(replyTotal);
+        review.setUpdateTime(new Date());
+
+        Integer result = replyMapper.deleteByPrimaryKey(id);
+        reviewMapper.updateByPrimaryKeySelective(review);
+
+        return result;
     }
 
     @Override
@@ -141,11 +162,6 @@ public class ReviewServiceImpl implements ReviewService {
         reviewMapper.updateByPrimaryKeySelective(review);
 
         return result;
-    }
-
-    @Override
-    public Integer countReceivedReviewLikeByUid(Integer uid) {
-        return reviewMapper.countReceivedReviewLikeByUid(uid);
     }
 
     @Override

@@ -161,12 +161,4 @@ public class ReviewController {
 
         return new ResultResponse<>(reviewService.deleteReviewLike(id));
     }
-
-    @GetMapping(value = "/receivedLikeTotal")
-    public BaseResponse<Integer> receivedLikeTotal(Authentication auth) {
-
-        Integer result =  reviewService.countReceivedReviewLikeByUid((Integer) auth.getPrincipal());
-
-        return new ResultResponse<>(result);
-    }
 }
