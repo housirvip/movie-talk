@@ -36,5 +36,7 @@ public class Review implements Serializable {
 
     private Integer replyTotal;
 
+    private Integer isLike;
+
     private static final long serialVersionUID = 1L;
 }

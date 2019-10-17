@@ -12,6 +12,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="like_total" jdbcType="INTEGER" property="likeTotal" />
     <result column="reply_total" jdbcType="INTEGER" property="replyTotal" />
+    <result column="is_like" jdbcType="INTEGER" javaType="java.lang.Integer" property="isLike" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="edu.uta.movietalk.entity.Review">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
@@ -36,6 +37,9 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
+    <if test="liker != null">
+      ,EXISTS ( SELECT * FROM review_like WHERE review_like.uid = #{liker, jdbcType=INTEGER} AND review_like.rid = review.id ) AS is_like
+    </if>
     from review, `user`
     where 1=1
     and review.uid = `user`.id
@@ -54,6 +58,9 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
+    <if test="liker != null">
+      ,EXISTS ( SELECT * FROM review_like WHERE review_like.uid = #{liker, jdbcType=INTEGER} AND review_like.rid = review.id ) AS is_like
+    </if>
     from review, `user`, user_follow
     where 1=1
     and review.uid = `user`.id
