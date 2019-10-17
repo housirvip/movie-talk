@@ -37,8 +37,6 @@ public class ReviewServiceImpl implements ReviewService {
     public Integer createReview(Review review) {
 
         review.setCreateTime(new Date());
-        review.setLikeTotal(0);
-        review.setReplyTotal(0);
 
         return reviewMapper.insertSelective(review);
     }
@@ -84,15 +82,15 @@ public class ReviewServiceImpl implements ReviewService {
 
         reply.setCreateTime(new Date());
 
-        Integer replyTotal = reviewMapper.selectByPrimaryKey(reply.getRid()).getReplyTotal() + 1;
-        Review review = new Review();
-        review.setId(reply.getRid());
-        review.setReplyTotal(replyTotal);
-        review.setUpdateTime(new Date());
+//        Integer replyTotal = reviewMapper.selectByPrimaryKey(reply.getRid()).getReplyTotal() + 1;
+//        Review review = new Review();
+//        review.setId(reply.getRid());
+//        review.setReplyTotal(replyTotal);
+//        review.setUpdateTime(new Date());
 
         Integer result = replyMapper.insertSelective(reply);
 
-        reviewMapper.updateByPrimaryKeySelective(review);
+//        reviewMapper.updateByPrimaryKeySelective(review);
         return result;
     }
 
@@ -105,15 +103,15 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Integer deleteReviewReply(Integer id) {
 
-        Integer rid = replyMapper.selectByPrimaryKey(id).getRid();
-        Integer replyTotal = reviewMapper.selectByPrimaryKey(rid).getReplyTotal() - 1;
-        Review review = new Review();
-        review.setId(rid);
-        review.setReplyTotal(replyTotal);
-        review.setUpdateTime(new Date());
+//        Integer rid = replyMapper.selectByPrimaryKey(id).getRid();
+//        Integer replyTotal = reviewMapper.selectByPrimaryKey(rid).getReplyTotal() - 1;
+//        Review review = new Review();
+//        review.setId(rid);
+//        review.setReplyTotal(replyTotal);
+//        review.setUpdateTime(new Date());
 
         Integer result = replyMapper.deleteByPrimaryKey(id);
-        reviewMapper.updateByPrimaryKeySelective(review);
+//        reviewMapper.updateByPrimaryKeySelective(review);
 
         return result;
     }
@@ -134,15 +132,15 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Integer createReviewLike(ReviewLike like) {
 
-        Integer likeTotal = reviewMapper.selectByPrimaryKey(like.getRid()).getLikeTotal() + 1;
-        Review review = new Review();
-        review.setId(like.getRid());
-        review.setLikeTotal(likeTotal);
-        review.setUpdateTime(new Date());
+//        Integer likeTotal = reviewMapper.selectByPrimaryKey(like.getRid()).getLikeTotal() + 1;
+//        Review review = new Review();
+//        review.setId(like.getRid());
+//        review.setLikeTotal(likeTotal);
+//        review.setUpdateTime(new Date());
 
         Integer result = likeMapper.insert(like);
 
-        reviewMapper.updateByPrimaryKeySelective(review);
+//        reviewMapper.updateByPrimaryKeySelective(review);
 
         return result;
     }
@@ -150,16 +148,16 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Integer deleteReviewLike(Integer id) {
 
-        Integer rid = likeMapper.selectByPrimaryKey(id).getRid();
-        Integer likeTotal = reviewMapper.selectByPrimaryKey(rid).getLikeTotal() - 1;
-        Review review = new Review();
-        review.setId(rid);
-        review.setLikeTotal(likeTotal);
-        review.setUpdateTime(new Date());
+//        Integer rid = likeMapper.selectByPrimaryKey(id).getRid();
+//        Integer likeTotal = reviewMapper.selectByPrimaryKey(rid).getLikeTotal() - 1;
+//        Review review = new Review();
+//        review.setId(rid);
+//        review.setLikeTotal(likeTotal);
+//        review.setUpdateTime(new Date());
 
         Integer result = likeMapper.deleteByPrimaryKey(id);
 
-        reviewMapper.updateByPrimaryKeySelective(review);
+//        reviewMapper.updateByPrimaryKeySelective(review);
 
         return result;
     }

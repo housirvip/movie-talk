@@ -32,9 +32,13 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping(value = "/getById/{reviewId}")
-    public BaseResponse<Review> getReviewById(@PathVariable("reviewId") Integer reviewId) {
+    public BaseResponse<Review> getReviewById(@PathVariable("reviewId") Integer reviewId, Authentication auth) {
 
-        return new ResultResponse<>(reviewService.getById(reviewId));
+        PageDto pageDto = new PageDto();
+        pageDto.getParamAsMap().put("id", reviewId);
+        pageDto.getParamAsMap().put("liker", (Integer) auth.getPrincipal());
+
+        return new ResultResponse<>(reviewService.findReviewBySelective(pageDto).getResult().get(0));
     }
 
     @GetMapping(value = "/getByMid")
