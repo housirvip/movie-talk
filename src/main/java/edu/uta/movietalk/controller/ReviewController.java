@@ -157,15 +157,15 @@ public class ReviewController {
     }
 
     @DeleteMapping(value = "/like")
-    public BaseResponse<Integer> deleteReviewLike(@RequestParam Integer id, Authentication auth) {
+    public BaseResponse<Integer> deleteReviewLike(@RequestParam Integer rid, Authentication auth) {
 
         PageDto pageDto = new PageDto();
-        pageDto.getParamAsMap().put("id", id);
+        pageDto.getParamAsMap().put("rid", rid);
         pageDto.putUid((Integer) auth.getPrincipal());
 
         Page<ReviewLike> likePage=  reviewService.findLikeBySelective(pageDto);
         Preconditions.checkArgument(!likePage.isEmpty(),REVIEW_LIKE_NOT_FOUND);
 
-        return new ResultResponse<>(reviewService.deleteReviewLike(id));
+        return new ResultResponse<>(reviewService.deleteReviewLike(likePage.getResult().get(0).getId()));
     }
 }
