@@ -1,10 +1,8 @@
 package edu.uta.movietalk.controller;
 
-import com.github.pagehelper.Page;
 import edu.uta.movietalk.base.BaseResponse;
 import edu.uta.movietalk.base.ResultResponse;
 import edu.uta.movietalk.client.TMDBClient;
-import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.entity.Score;
 import edu.uta.movietalk.service.ScoreService;
 import lombok.RequiredArgsConstructor;
@@ -63,12 +61,9 @@ public class MovieController {
     @GetMapping(value = "/recommend")
     public BaseResponse<Object> getRecommend(Authentication auth) {
 
-        if(auth.getPrincipal() != null ) {
-
+        if (auth != null && auth.getPrincipal() != null) {
             Score score = scoreService.selectMaxScoreByUid((Integer) auth.getPrincipal());
-
             return new ResultResponse<>(tmdbClient.getRecommend(score.getMid().toString(), apiV3, 1));
-
         }
 
         return new ResultResponse<>(tmdbClient.getNowPlaying(apiV3));
