@@ -34,4 +34,12 @@ public interface ScoreService {
      * @return Score
      */
     Page<Score> pageScore(PageDto pageDto);
+
+    /**
+     * select user Record
+     *
+     * @param uid Integer
+     * @return UserRecord
+     */
+    Score selectMaxScoreByUid(Integer uid);
 }

@@ -24,4 +24,7 @@ public interface TMDBClient {
 
     @RequestLine("GET /3/search/movie?api_key={api_key}&query={query}&page={page}")
     public Object searchMovie(@Param("api_key") String api_key, @Param("query") String query, @Param("page") String page);
+
+    @RequestLine("GET /3/movie/{movie_id}/recommendations?api_key={api_key}&page={page}")
+    public Object getRecommend(@Param("movie_id") String movie_id, @Param("api_key") String api_key,  @Param("page") Integer page);
 }

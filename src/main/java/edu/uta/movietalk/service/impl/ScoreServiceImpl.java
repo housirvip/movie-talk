@@ -3,6 +3,7 @@ package edu.uta.movietalk.service.impl;
 import com.github.pagehelper.Page;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.entity.Score;
+import edu.uta.movietalk.entity.UserRecord;
 import edu.uta.movietalk.mapper.ScoreMapper;
 import edu.uta.movietalk.service.ScoreService;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,10 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public Page<Score> pageScore(PageDto pageDto) {
         return scoreMapper.selectByPrimaryKeySelective(pageDto.putParam().getParamAsMap());
+    }
+
+    @Override
+    public Score selectMaxScoreByUid(Integer uid) {
+        return scoreMapper.selectMaxScoreByUid(uid);
     }
 }

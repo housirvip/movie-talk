@@ -67,4 +67,13 @@ public interface ScoreMapper {
      * @return int
      */
     int updateByPrimaryKey(Score record);
+
+    /**
+     * select max score
+     *
+     * @param uid Integer
+     * @return UserRecord
+     *
+     */
+    Score selectMaxScoreByUid(Integer uid);
 }
