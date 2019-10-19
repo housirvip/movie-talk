@@ -54,7 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, ErrorMessage.UNAUTHORIZED))
                 .and().authorizeRequests()
                 // below path all permitted, needn't to check authorization
-                .antMatchers("/actuator/**", "/auth/**", "/user/friend", "/noauth/**", "/druid/**", "/movie/**").permitAll()
+                .antMatchers("/actuator/**", "/auth/**", "/user/friend", "/noauth/**", "/druid/**", "/movie/**", "/review/getById/{reviewId}",
+                        "/review/getByMid","/review/getByUid","/review/getByFollowing","/review/reply/getByRid", "/score").permitAll()
                 .antMatchers("/**").authenticated()
                 // path start with '/admin' should has role ADMIN or ROOT
                 // .antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
