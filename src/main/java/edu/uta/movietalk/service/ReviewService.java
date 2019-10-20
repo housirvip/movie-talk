@@ -6,6 +6,8 @@ import edu.uta.movietalk.entity.Review;
 import edu.uta.movietalk.entity.ReviewLike;
 import edu.uta.movietalk.entity.ReviewReply;
 
+import java.util.List;
+
 /**
  * @author hxy
  */
@@ -140,4 +142,13 @@ public interface ReviewService {
      * @return ReviewLike
      */
     Page<ReviewLike> findLikeBySelective(PageDto pageDto);
+
+
+    /**
+     * get hotReviews
+     *
+     * @param
+     * @return Review
+     */
+    Page<Review> pageHotReviews(PageDto pageDto);
 }

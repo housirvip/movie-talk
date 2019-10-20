@@ -5,6 +5,7 @@ import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.entity.Review;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -86,4 +87,13 @@ public interface ReviewMapper {
      * @return int
      */
     int countReceivedReviewLikeByUid(Integer uid);
+
+
+    /**
+     * get hotReviews
+     *
+     * @param
+     * @return Review
+     */
+    Page<Review> selectHotReviews();
 }

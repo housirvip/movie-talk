@@ -14,9 +14,12 @@ import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.service.ReviewService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static edu.uta.movietalk.constant.ErrorMessage.*;
 import static org.apache.logging.log4j.ThreadContext.isEmpty;
@@ -24,6 +27,7 @@ import static org.apache.logging.log4j.ThreadContext.isEmpty;
 /**
  * @author hxy
  */
+@Slf4j
 @RestController
 @RequestMapping(value = "/review")
 @RequiredArgsConstructor
@@ -167,5 +171,13 @@ public class ReviewController {
         Preconditions.checkArgument(!likePage.isEmpty(),REVIEW_LIKE_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.deleteReviewLike(likePage.getResult().get(0).getId()));
+    }
+
+    @GetMapping(value = "/hot")
+    public BaseResponse<Page> getHotReview() {
+
+        Page<Review> reviewPage = reviewService.pageHotReviews(new PageDto());
+
+        return new PageResponse<>(reviewPage, reviewPage.getTotal());
     }
 }

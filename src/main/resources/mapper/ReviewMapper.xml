@@ -60,6 +60,20 @@
       and mid = #{mid,jdbcType=INTEGER}
     </if>
   </select>
+
+  <select id="selectHotReviews" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    (select count(review_like.rid) from review_like where review_like.rid = review.id) as like_total
+    ,
+    (select count(review_reply.rid) from review_reply where review_reply.rid = review.id) as reply_total
+    from review, `user`
+    where review.uid = `user`.id
+    order by like_total desc
+  </select>
   <select id="selectByFollowing" parameterType="map" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author hxy
@@ -166,5 +167,10 @@ public class ReviewServiceImpl implements ReviewService {
     public Page<ReviewLike> findLikeBySelective(PageDto pageDto) {
 
         return likeMapper.selectByPrimaryKeySelective(pageDto.putParam().getParamAsMap());
+    }
+
+    @Override
+    public Page<Review> pageHotReviews(PageDto pageDto) {
+        return reviewMapper.selectHotReviews();
     }
 }
