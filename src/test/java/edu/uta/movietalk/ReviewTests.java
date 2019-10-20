@@ -35,9 +35,6 @@ public class ReviewTests {
 
     @Test
     void testCreatReview() throws Exception{
-        UserDto userDto = new UserDto();
-        userDto.setAccount("asdasd");
-        userDto.setPassword("asdasd");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/review")
                 .header("Authorization", "Bearer " + jwtToken))
