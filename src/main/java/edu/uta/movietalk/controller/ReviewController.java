@@ -38,7 +38,7 @@ public class ReviewController {
 
         PageDto pageDto = new PageDto();
         pageDto.getParamAsMap().put("id", reviewId);
-        pageDto.getParamAsMap().put("liker", (Integer) auth.getPrincipal());
+        pageDto.getParamAsMap().put("liker", auth == null ? null : (Integer) auth.getPrincipal());
 
         return new ResultResponse<>(reviewService.findReviewBySelective(pageDto).getResult().get(0));
     }
@@ -46,7 +46,7 @@ public class ReviewController {
     @GetMapping(value = "/getByMid")
     public BaseResponse<Page> getReviewByMid(PageDto pageDto, Authentication auth) {
 
-        pageDto.getParamAsMap().put("liker", (Integer) auth.getPrincipal());
+        pageDto.getParamAsMap().put("liker", auth == null ? null : (Integer) auth.getPrincipal());
         Page<Review> reviewPage = reviewService.pageReviewBymid(pageDto);
         return new PageResponse<>(reviewPage, reviewPage.getTotal());
     }
@@ -54,13 +54,17 @@ public class ReviewController {
     @GetMapping(value = "/getByUid")
     public BaseResponse<Page> getReviewByUid(PageDto pageDto, Authentication auth) {
 
-        pageDto.getParamAsMap().put("liker", (Integer) auth.getPrincipal());
+        pageDto.getParamAsMap().put("liker", auth == null ? null : (Integer) auth.getPrincipal());
         Page<Review> reviewPage = reviewService.pageReviewByuid(pageDto);
         return new PageResponse<>(reviewPage, reviewPage.getTotal());
     }
 
     @GetMapping(value = "/getByFollowing")
     public BaseResponse<Page> getReviewByFollowing(PageDto pageDto, Authentication auth) {
+
+        if(auth == null) {
+            return new PageResponse<>(null, 0);
+        }
 
         pageDto.putUid((Integer) auth.getPrincipal());
         pageDto.getParamAsMap().put("liker", (Integer) auth.getPrincipal());

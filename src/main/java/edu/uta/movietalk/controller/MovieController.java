@@ -63,7 +63,9 @@ public class MovieController {
 
         if (auth != null && auth.getPrincipal() != null) {
             Score score = scoreService.selectMaxScoreByUid((Integer) auth.getPrincipal());
-            return new ResultResponse<>(tmdbClient.getRecommend(score.getMid().toString(), apiV3, 1));
+            if(score != null) {
+                return new ResultResponse<>(tmdbClient.getRecommend(score.getMid().toString(), apiV3, 1));
+            }
         }
 
         return new ResultResponse<>(tmdbClient.getNowPlaying(apiV3));

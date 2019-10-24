@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 // below path all permitted, needn't to check authorization
                 .antMatchers("/actuator/**", "/auth/**", "/user/friend", "/noauth/**", "/druid/**", "/movie/**", "/review/getById/{reviewId}",
-                        "/review/getByMid","/review/getByUid","/review/getByFollowing","/review/reply/getByRid", "/score").permitAll()
+                        "/review/getByMid","/review/getByUid","/review/getByFollowing","/review/hot","/review/reply/getByRid", "/score").permitAll()
                 .antMatchers("/**").authenticated()
                 // path start with '/admin' should has role ADMIN or ROOT
                 // .antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
