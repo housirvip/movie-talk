@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import static edu.uta.movietalk.constant.Constant.REPORT_UNSOLVE;
 import static edu.uta.movietalk.constant.ErrorMessage.USER_GROUP_LIMIT;
 
+/**
+ * @author hxy
+ */
 @RestController
 @RequestMapping(value = "/report")
 @RequiredArgsConstructor
