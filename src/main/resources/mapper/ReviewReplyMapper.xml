@@ -8,6 +8,7 @@
     <result column="rid" jdbcType="INTEGER" property="rid" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="review_title" jdbcType="VARCHAR" javaType="java.lang.String" property="reviewTitle" />
   </resultMap>
   <sql id="Base_Column_List">
     review_reply.id, review_reply.uid, `user`.username, review_reply.rid, review_reply.content, review_reply.create_time
@@ -15,15 +16,20 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from review_reply,`user`
-    where review_reply.id = #{id,jdbcType=INTEGER} and review_reply.uid = `user`.id
+    ,
+    review.title as review_title
+    from review_reply,`user`,review
+    where review_reply.id = #{id,jdbcType=INTEGER} and review_reply.uid = `user`.id and review_reply.rid = review.id
   </select>
   <select id="selectByPrimaryKeySelective" parameterType="map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from review_reply, `user`
+    ,
+    review.title as review_title
+    from review_reply, `user`, review
     where 1=1
     and review_reply.uid = `user`.id
+    and review_reply.rid = review.id
     <if test="id != null">
       and review_reply.id = #{id,jdbcType=INTEGER}
     </if>
@@ -31,9 +37,39 @@
       and rid = #{rid,jdbcType=INTEGER}
     </if>
   </select>
+  <select id="selectByLike" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    review.title as review_title
+    from review_reply, `user`, review
+    where 1=1
+    and review_reply.uid = `user`.id
+    and review_reply.rid = review.id
+    <if test="username != null">
+      and `user`.username like concat('%',#{username,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="content != null">
+      and review_reply.content like concat('%',#{content,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="reviewTitle != null">
+      and review.title like concat('%',#{reviewTitle,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from review_reply
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteBySelective" parameterType="edu.uta.movietalk.entity.ReviewReply">
+    delete from review_reply
+    where 1=1
+    <if test="id != null">
+      and id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="rid != null">
+      and rid = #{rid,jdbcType=INTEGER}
+    </if>
   </delete>
   <insert id="insert" parameterType="edu.uta.movietalk.entity.ReviewReply">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">

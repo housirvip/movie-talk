@@ -96,4 +96,12 @@ public interface ReviewMapper {
      * @return Review
      */
     Page<Review> selectHotReviews();
+
+    /**
+     * get review by like
+     *
+     * @param param
+     * @return Review
+     */
+    Page<Review> selectByLike(Map<String, Object> param);
 }

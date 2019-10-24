@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.uta.movietalk.mapper.ReportMapper">
+  <resultMap id="BaseResultMap" type="edu.uta.movietalk.entity.Report">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="reply_id" jdbcType="INTEGER" property="replyId" />
+    <result column="review_id" jdbcType="INTEGER" property="reviewId" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="solve" jdbcType="INTEGER" property="solve" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, reply_id, review_id, uid, type, content, solve
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySelective" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from report
+    where 1=1
+    <if test="replyId != null">
+      and reply_id = #{replyId,jdbcType=INTEGER}
+    </if>
+    <if test="reviewId != null">
+      and review_id = #{reviewId,jdbcType=INTEGER}
+    </if>
+    <if test="uid != null">
+      and uid = #{uid,jdbcType=INTEGER}
+    </if>
+    <if test="type != null">
+      and type = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="solve != null">
+      and solve = #{solve,jdbcType=INTEGER}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="edu.uta.movietalk.entity.Report">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into report (reply_id, review_id, uid, 
+      type, content, solve
+      )
+    values (#{replyId,jdbcType=INTEGER}, #{reviewId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{solve,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="edu.uta.movietalk.entity.Report">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into report
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="replyId != null">
+        reply_id,
+      </if>
+      <if test="reviewId != null">
+        review_id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="solve != null">
+        solve,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="replyId != null">
+        #{replyId,jdbcType=INTEGER},
+      </if>
+      <if test="reviewId != null">
+        #{reviewId,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="solve != null">
+        #{solve,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.uta.movietalk.entity.Report">
+    update report
+    <set>
+      <if test="replyId != null">
+        reply_id = #{replyId,jdbcType=INTEGER},
+      </if>
+      <if test="reviewId != null">
+        review_id = #{reviewId,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="solve != null">
+        solve = #{solve,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edu.uta.movietalk.entity.Report">
+    update report
+    set reply_id = #{replyId,jdbcType=INTEGER},
+      review_id = #{reviewId,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      solve = #{solve,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

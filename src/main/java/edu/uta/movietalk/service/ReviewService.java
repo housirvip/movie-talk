@@ -151,4 +151,20 @@ public interface ReviewService {
      * @return Review
      */
     Page<Review> pageHotReviews(PageDto pageDto);
+
+    /**
+     * get AllReviews
+     *
+     * @param
+     * @return Review
+     */
+    Page<Review> pageAllReviewsByLike(PageDto pageDto);
+
+    /**
+     * get AllReplies
+     *
+     * @param
+     * @return Review
+     */
+    Page<ReviewReply> pageAllRepliesByLike(PageDto pageDto);
 }

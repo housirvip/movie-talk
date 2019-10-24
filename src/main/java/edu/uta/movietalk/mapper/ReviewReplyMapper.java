@@ -66,4 +66,20 @@ public interface ReviewReplyMapper {
      * @return int
      */
     int updateByPrimaryKey(ReviewReply record);
+
+    /**
+     * get reply by like
+     *
+     * @param param
+     * @return ReviewReply
+     */
+    Page<ReviewReply> selectByLike(Map<String, Object> param);
+
+    /**
+     * delete reply by selective
+     *
+     * @param reply
+     * @return Integer
+     */
+    Integer deleteBySelective(ReviewReply reply);
 }

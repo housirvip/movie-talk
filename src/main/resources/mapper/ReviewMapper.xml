@@ -18,7 +18,7 @@
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Base_Column_List">
-    review.id, review.uid, `user`.username, review.mid, review.title, review.vote, review.create_time, review.update_time
+      review.id, review.uid, `user`.username, review.mid, review.title, review.vote, review.create_time, review.update_time
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -58,6 +58,32 @@
     </if>
     <if test="mid != null">
       and mid = #{mid,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="selectByLike" parameterType="map" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    (select count(review_like.rid) from review_like where review_like.rid = review.id) as like_total
+    ,
+    (select count(review_reply.rid) from review_reply where review_reply.rid = review.id) as reply_total
+    <if test="liker != null">
+      ,EXISTS ( SELECT * FROM review_like WHERE review_like.uid = #{liker, jdbcType=INTEGER} AND review_like.rid = review.id ) AS is_like
+    </if>
+    from review, `user`
+    where 1=1
+    and review.uid = `user`.id
+    <if test="username != null">
+      and `user`.username like concat('%',#{username,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="title != null">
+      and title like concat('%',#{title,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="content != null">
+      and content like concat('%',#{content,jdbcType=VARCHAR},'%')
     </if>
   </select>
 

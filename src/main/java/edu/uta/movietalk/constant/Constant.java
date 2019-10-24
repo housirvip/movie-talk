@@ -43,4 +43,7 @@ public class Constant {
     public static final String SMS_OK = "{}";
     public static final String CAPTCHA_OK = "{\"error\":0,\"res\":\"success\"}";
     public static final String DING_OK = "{\"errmsg\":\"ok\",\"errcode\":0}";
+
+    public static final int REPORT_SOLVE = 0;
+    public static final int REPORT_UNSOLVE = 1;
 }

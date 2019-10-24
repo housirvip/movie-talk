@@ -6,6 +6,7 @@ import edu.uta.movietalk.base.BaseResponse;
 import edu.uta.movietalk.base.ErrorResponse;
 import edu.uta.movietalk.base.PageResponse;
 import edu.uta.movietalk.base.ResultResponse;
+import edu.uta.movietalk.constant.UserGroup;
 import edu.uta.movietalk.dto.ChangePass;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.UserDto;
@@ -19,8 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static edu.uta.movietalk.constant.ErrorMessage.REVIEW_LIKE_NOT_FOUND;
-import static edu.uta.movietalk.constant.ErrorMessage.USER_FOLLOWING_ITSELF;
+import static edu.uta.movietalk.constant.ErrorMessage.*;
 
 /**
  * @author housirvip
@@ -113,5 +113,26 @@ public class UserController {
     public BaseResponse<UserRecord> selectUserRecord(Authentication auth) {
 
         return new ResultResponse<>(userService.selectUserRecord((Integer) auth.getPrincipal()));
+    }
+
+    @GetMapping(value = "/all")
+    public BaseResponse<Page> selectUser(PageDto pageDto, Authentication auth) {
+
+        User user = userService.oneByIdWithInfo((Integer) auth.getPrincipal());
+
+        Boolean result = user.getGroup().getValue().equals(UserGroup.Admin.getValue());
+        Preconditions.checkArgument(result,USER_GROUP_LIMIT);
+        Page<User> userPage = userService.pageByParam(pageDto);
+
+        return new PageResponse<>(userPage, userPage.getTotal());
+    }
+
+    @PutMapping(value = "/update")
+    public BaseResponse<Integer> updateUser(@RequestBody User user, Authentication auth) {
+
+        Boolean result = userService.oneByIdWithInfo((Integer) auth.getPrincipal()).getGroup().getValue().equals(UserGroup.Admin.getValue());
+        Preconditions.checkArgument(result,USER_GROUP_LIMIT);
+
+        return new ResultResponse<>(userService.update(user));
     }
 }

@@ -1,6 +1,7 @@
 package edu.uta.movietalk.service.impl;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.util.StringUtil;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.entity.Review;
 import edu.uta.movietalk.entity.ReviewLike;
@@ -50,7 +51,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Integer deleteReview(Integer id) {
+        if(id == null) {
+            return 0;
+        }
 
+        ReviewReply reviewReply = new ReviewReply();
+        reviewReply.setRid(id);
+        replyMapper.deleteBySelective(reviewReply);
         return reviewMapper.deleteByPrimaryKey(id);
     }
 
@@ -103,6 +110,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Integer deleteReviewReply(Integer id) {
+
+        if(id == null) {
+            return 0;
+        }
 
 //        Integer rid = replyMapper.selectByPrimaryKey(id).getRid();
 //        Integer replyTotal = reviewMapper.selectByPrimaryKey(rid).getReplyTotal() - 1;
@@ -172,5 +183,15 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Page<Review> pageHotReviews(PageDto pageDto) {
         return reviewMapper.selectHotReviews();
+    }
+
+    @Override
+    public Page<Review> pageAllReviewsByLike(PageDto pageDto) {
+        return reviewMapper.selectByLike(pageDto.putParam().getParamAsMap());
+    }
+
+    @Override
+    public Page<ReviewReply> pageAllRepliesByLike(PageDto pageDto) {
+        return replyMapper.selectByLike(pageDto.putParam().getParamAsMap());
     }
 }

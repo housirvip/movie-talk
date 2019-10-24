@@ -15,7 +15,7 @@
     from review_like
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByPrimaryKeySelective" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKeySelective" parameterType="map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from review_like

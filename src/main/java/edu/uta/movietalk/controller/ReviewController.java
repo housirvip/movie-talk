@@ -5,24 +5,20 @@ import com.google.common.base.Preconditions;
 import edu.uta.movietalk.base.BaseResponse;
 import edu.uta.movietalk.base.PageResponse;
 import edu.uta.movietalk.base.ResultResponse;
+import edu.uta.movietalk.constant.Constant;
+import edu.uta.movietalk.constant.UserGroup;
 import edu.uta.movietalk.dto.PageDto;
-import edu.uta.movietalk.dto.Register;
 import edu.uta.movietalk.entity.Review;
 import edu.uta.movietalk.entity.ReviewLike;
 import edu.uta.movietalk.entity.ReviewReply;
-import edu.uta.movietalk.entity.UserFollow;
 import edu.uta.movietalk.service.ReviewService;
-import lombok.Data;
+import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import static edu.uta.movietalk.constant.ErrorMessage.*;
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 /**
  * @author hxy
@@ -34,6 +30,8 @@ import static org.apache.logging.log4j.ThreadContext.isEmpty;
 public class ReviewController {
 
     private final ReviewService reviewService;
+
+    private final UserService userService;
 
     @GetMapping(value = "/getById/{reviewId}")
     public BaseResponse<Review> getReviewById(@PathVariable("reviewId") Integer reviewId, Authentication auth) {
@@ -82,12 +80,16 @@ public class ReviewController {
     @DeleteMapping(value = "")
     public BaseResponse<Integer> deleteReview(@RequestParam Integer id, Authentication auth) {
 
-        PageDto pageDto = new PageDto();
-        pageDto.getParamAsMap().put("id", id);
-        pageDto.putUid((Integer) auth.getPrincipal());
+        if(!userService.oneByIdWithInfo((Integer) auth.getPrincipal()).getGroup().getValue().equals(UserGroup.Admin.toString())) {
+            PageDto pageDto = new PageDto();
+            pageDto.getParamAsMap().put("id", id);
+            pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<Review> reviewPage=  reviewService.findReviewBySelective(pageDto);
-        Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_NOT_FOUND);
+            Page<Review> reviewPage=  reviewService.findReviewBySelective(pageDto);
+            Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_NOT_FOUND);
+        }
+
+
 
         return new ResultResponse<>(reviewService.deleteReview(id));
     }
@@ -103,6 +105,15 @@ public class ReviewController {
         Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.updateReview(review));
+    }
+
+    @GetMapping(value = "/reply/getById/{replyId}")
+    public BaseResponse<ReviewReply> getReviewReplyById(@PathVariable("replyId") Integer replyId, Authentication auth) {
+
+        PageDto pageDto = new PageDto();
+        pageDto.getParamAsMap().put("id", replyId);
+
+        return new ResultResponse<>(reviewService.findReviewReplyBySelective(pageDto).getResult().get(0));
     }
 
     @GetMapping(value = "/reply/getByRid")
@@ -123,12 +134,14 @@ public class ReviewController {
     @DeleteMapping(value = "/reply")
     public BaseResponse<Integer> deleteReviewReply(@RequestParam Integer id, Authentication auth) {
 
-        PageDto pageDto = new PageDto();
-        pageDto.getParamAsMap().put("id", id);
-        pageDto.putUid((Integer) auth.getPrincipal());
+        if(!userService.oneByIdWithInfo((Integer) auth.getPrincipal()).getGroup().getValue().equals(UserGroup.Admin.toString())) {
+            PageDto pageDto = new PageDto();
+            pageDto.getParamAsMap().put("id", id);
+            pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<ReviewReply> replyPage=  reviewService.findReviewReplyBySelective(pageDto);
-        Preconditions.checkArgument(!replyPage.isEmpty(),REVIEW_REPLY_NOT_FOUND);
+            Page<ReviewReply> replyPage=  reviewService.findReviewReplyBySelective(pageDto);
+            Preconditions.checkArgument(!replyPage.isEmpty(),REVIEW_REPLY_NOT_FOUND);
+        }
 
         return new ResultResponse<>(reviewService.deleteReviewReply(id));
     }
@@ -179,5 +192,23 @@ public class ReviewController {
         Page<Review> reviewPage = reviewService.pageHotReviews(new PageDto());
 
         return new PageResponse<>(reviewPage, reviewPage.getTotal());
+    }
+
+    @GetMapping(value = "/all")
+    public BaseResponse<Page> getAllReviews(PageDto pageDto) {
+
+        Page<Review> reviewPage = reviewService.pageAllReviewsByLike(pageDto);
+
+        return new PageResponse<>(reviewPage, reviewPage.getTotal());
+
+    }
+
+    @GetMapping(value = "/reply/all")
+    public BaseResponse<Page> getAllReply(PageDto pageDto) {
+
+        Page<ReviewReply> replyPage = reviewService.pageAllRepliesByLike(pageDto);
+
+        return new PageResponse<>(replyPage, replyPage.getTotal());
+
     }
 }
