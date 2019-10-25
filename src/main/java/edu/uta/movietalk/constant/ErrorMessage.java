@@ -29,4 +29,6 @@ public class ErrorMessage {
     public static final String REVIEW_REPLY_NOT_FOUND = "REVIEW_REPLY_NOT_FOUND";
     public static final String REVIEW_LIKE_NOT_FOUND = "REVIEW_LIKE_NOT_FOUND";
     public static final String REVIEW_LIKE_AGAIN = "REVIEW_LIKE_AGAIN";
+
+    public static final String DIRTY_WORD_EXIST = "DIRTY_WORD_EXIST";
 }

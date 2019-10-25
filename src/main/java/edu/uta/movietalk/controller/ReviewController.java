@@ -5,12 +5,12 @@ import com.google.common.base.Preconditions;
 import edu.uta.movietalk.base.BaseResponse;
 import edu.uta.movietalk.base.PageResponse;
 import edu.uta.movietalk.base.ResultResponse;
-import edu.uta.movietalk.constant.Constant;
 import edu.uta.movietalk.constant.UserGroup;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.entity.Review;
 import edu.uta.movietalk.entity.ReviewLike;
 import edu.uta.movietalk.entity.ReviewReply;
+import edu.uta.movietalk.nlp.IllegalInfoProcess;
 import edu.uta.movietalk.service.ReviewService;
 import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +32,8 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     private final UserService userService;
+
+    private final IllegalInfoProcess illegalInfoProcess;
 
     @GetMapping(value = "/getById/{reviewId}")
     public BaseResponse<Review> getReviewById(@PathVariable("reviewId") Integer reviewId, Authentication auth) {
@@ -75,6 +77,9 @@ public class ReviewController {
 
     @PostMapping(value = "")
     public BaseResponse<Integer> createReview(@RequestBody Review review, Authentication auth) {
+
+        Preconditions.checkArgument(!illegalInfoProcess.isDirty(review.getTitle()), DIRTY_WORD_EXIST);
+        Preconditions.checkArgument(!illegalInfoProcess.isDirty(review.getContent()), DIRTY_WORD_EXIST);
 
         review.setUid((Integer) auth.getPrincipal());
 
@@ -129,6 +134,8 @@ public class ReviewController {
 
     @PostMapping(value = "/reply")
     public BaseResponse<Integer> createReviewReply(@RequestBody ReviewReply reply, Authentication auth) {
+
+        Preconditions.checkArgument(!illegalInfoProcess.isDirty(reply.getContent()), DIRTY_WORD_EXIST);
 
         reply.setUid((Integer) auth.getPrincipal());
 
