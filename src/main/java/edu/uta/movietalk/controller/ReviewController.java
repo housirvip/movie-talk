@@ -78,8 +78,7 @@ public class ReviewController {
     @PostMapping(value = "")
     public BaseResponse<Integer> createReview(@RequestBody Review review, Authentication auth) {
 
-        Preconditions.checkArgument(!illegalInfoProcess.isDirty(review.getTitle()), DIRTY_WORD_EXIST);
-        Preconditions.checkArgument(!illegalInfoProcess.isDirty(review.getContent()), DIRTY_WORD_EXIST);
+        Preconditions.checkArgument(!illegalInfoProcess.isDirty(review.getTitle()+ "." + review.getContent()), DIRTY_WORD_EXIST);
 
         review.setUid((Integer) auth.getPrincipal());
 

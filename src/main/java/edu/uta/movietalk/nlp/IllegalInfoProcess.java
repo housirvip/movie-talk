@@ -1,9 +1,8 @@
 package edu.uta.movietalk.nlp;
 
 import edu.uta.movietalk.client.PDClient;
+import edu.uta.movietalk.entity.Abuse;
 import edu.uta.movietalk.entity.DirtyWord;
-import edu.uta.movietalk.entity.Emotion;
-import edu.uta.movietalk.entity.EmotionText;
 import edu.uta.movietalk.mapper.DirtyWordMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +35,10 @@ public class IllegalInfoProcess {
             Map<String, String> map = new HashMap<>();
             map.put("api_key", apiKey);
             map.put("text", content);
-            Object emotion = pdClient.postEmotion(map);
-            log.info(emotion.toString());
+            Abuse abuse= pdClient.postEmotion(apiKey, content);
+            if(abuse.getAbusive() > 0.7) {
+                return Boolean.TRUE;
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

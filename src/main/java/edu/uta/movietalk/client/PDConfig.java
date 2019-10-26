@@ -27,7 +27,7 @@ public class PDConfig {
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .logger(new Slf4jLogger(PDClient.class))
-                .logLevel(Logger.Level.FULL)
+                .logLevel(Logger.Level.BASIC)
                 .target(PDClient.class, pdUrl);
     }
 }
