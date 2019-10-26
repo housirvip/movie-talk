@@ -48,6 +48,9 @@ api:
     url: https://api.themoviedb.org
     v3: ${KEY_V3}
     v4: ${KEY_V4}
+  pd:
+    url: https://apis.paralleldots.com
+    key: ${PD_KEY}
 
 logging:
   level:
