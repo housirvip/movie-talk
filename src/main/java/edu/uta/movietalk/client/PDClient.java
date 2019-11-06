@@ -12,6 +12,11 @@ import feign.RequestLine;
 public interface PDClient {
 
 
+    /**
+     * @param apiKey apiKey
+     * @param text to be check
+     * @return Abuse
+     */
     @RequestLine("POST /v4/abuse")
     @Headers("Content-Type: application/x-www-form-urlencoded")
     @Body("api_key={api_key}&text={text}")

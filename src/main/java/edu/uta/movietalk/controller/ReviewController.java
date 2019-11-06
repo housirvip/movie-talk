@@ -5,7 +5,6 @@ import com.google.common.base.Preconditions;
 import edu.uta.movietalk.base.BaseResponse;
 import edu.uta.movietalk.base.PageResponse;
 import edu.uta.movietalk.base.ResultResponse;
-import edu.uta.movietalk.constant.UserGroup;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.entity.Review;
 import edu.uta.movietalk.entity.ReviewLike;
@@ -15,6 +14,7 @@ import edu.uta.movietalk.service.ReviewService;
 import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,7 +64,7 @@ public class ReviewController {
     @GetMapping(value = "/getByFollowing")
     public BaseResponse<Page> getReviewByFollowing(PageDto pageDto, Authentication auth) {
 
-        if(auth == null) {
+        if (auth == null) {
             return new PageResponse<>(null, 0);
         }
 
@@ -78,7 +78,7 @@ public class ReviewController {
     @PostMapping(value = "")
     public BaseResponse<Integer> createReview(@RequestBody Review review, Authentication auth) {
 
-        Preconditions.checkArgument(!illegalInfoProcess.isDirty(review.getTitle()+ "." + review.getContent()), DIRTY_WORD_EXIST);
+        Preconditions.checkArgument(!illegalInfoProcess.isDirty(review.getTitle() + "." + review.getContent()), DIRTY_WORD_EXIST);
 
         review.setUid((Integer) auth.getPrincipal());
 
@@ -88,16 +88,19 @@ public class ReviewController {
     @DeleteMapping(value = "")
     public BaseResponse<Integer> deleteReview(@RequestParam Integer id, Authentication auth) {
 
-        if(!userService.oneByIdWithInfo((Integer) auth.getPrincipal()).getGroup().getValue().equals(UserGroup.Admin.toString())) {
-            PageDto pageDto = new PageDto();
-            pageDto.getParamAsMap().put("id", id);
-            pageDto.putUid((Integer) auth.getPrincipal());
+        PageDto pageDto = new PageDto();
+        pageDto.getParamAsMap().put("id", id);
+        pageDto.putUid((Integer) auth.getPrincipal());
 
-            Page<Review> reviewPage=  reviewService.findReviewBySelective(pageDto);
-            Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_NOT_FOUND);
-        }
+        Page<Review> reviewPage = reviewService.findReviewBySelective(pageDto);
+        Preconditions.checkArgument(!reviewPage.isEmpty(), REVIEW_NOT_FOUND);
 
+        return new ResultResponse<>(reviewService.deleteReview(id));
+    }
 
+    @DeleteMapping(value = "deleteByAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public BaseResponse<Integer> deleteByAdmin(@RequestParam Integer id) {
 
         return new ResultResponse<>(reviewService.deleteReview(id));
     }
@@ -109,8 +112,8 @@ public class ReviewController {
         pageDto.getParamAsMap().put("id", review.getId());
         pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<Review> reviewPage=  reviewService.findReviewBySelective(pageDto);
-        Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_NOT_FOUND);
+        Page<Review> reviewPage = reviewService.findReviewBySelective(pageDto);
+        Preconditions.checkArgument(!reviewPage.isEmpty(), REVIEW_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.updateReview(review));
     }
@@ -144,14 +147,19 @@ public class ReviewController {
     @DeleteMapping(value = "/reply")
     public BaseResponse<Integer> deleteReviewReply(@RequestParam Integer id, Authentication auth) {
 
-        if(!userService.oneByIdWithInfo((Integer) auth.getPrincipal()).getGroup().getValue().equals(UserGroup.Admin.toString())) {
-            PageDto pageDto = new PageDto();
-            pageDto.getParamAsMap().put("id", id);
-            pageDto.putUid((Integer) auth.getPrincipal());
+        PageDto pageDto = new PageDto();
+        pageDto.getParamAsMap().put("id", id);
+        pageDto.putUid((Integer) auth.getPrincipal());
 
-            Page<ReviewReply> replyPage=  reviewService.findReviewReplyBySelective(pageDto);
-            Preconditions.checkArgument(!replyPage.isEmpty(),REVIEW_REPLY_NOT_FOUND);
-        }
+        Page<ReviewReply> replyPage = reviewService.findReviewReplyBySelective(pageDto);
+        Preconditions.checkArgument(!replyPage.isEmpty(), REVIEW_REPLY_NOT_FOUND);
+
+        return new ResultResponse<>(reviewService.deleteReviewReply(id));
+    }
+
+    @DeleteMapping(value = "/reply/deleteByAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public BaseResponse<Integer> deleteReplyByAdmin(@RequestParam Integer id) {
 
         return new ResultResponse<>(reviewService.deleteReviewReply(id));
     }
@@ -163,8 +171,8 @@ public class ReviewController {
         pageDto.getParamAsMap().put("id", reply.getId());
         pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<ReviewReply> reviewPage=  reviewService.findReviewReplyBySelective(pageDto);
-        Preconditions.checkArgument(!reviewPage.isEmpty(),REVIEW_REPLY_NOT_FOUND);
+        Page<ReviewReply> reviewPage = reviewService.findReviewReplyBySelective(pageDto);
+        Preconditions.checkArgument(!reviewPage.isEmpty(), REVIEW_REPLY_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.updateReviewReply(reply));
     }
@@ -176,8 +184,8 @@ public class ReviewController {
         pageDto.getParamAsMap().put("rid", like.getRid());
         pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<ReviewLike> likePage=  reviewService.findLikeBySelective(pageDto);
-        Preconditions.checkArgument(likePage.isEmpty(),REVIEW_LIKE_AGAIN);
+        Page<ReviewLike> likePage = reviewService.findLikeBySelective(pageDto);
+        Preconditions.checkArgument(likePage.isEmpty(), REVIEW_LIKE_AGAIN);
         like.setUid((Integer) auth.getPrincipal());
 
         return new ResultResponse<>(reviewService.createReviewLike(like));
@@ -190,8 +198,8 @@ public class ReviewController {
         pageDto.getParamAsMap().put("rid", rid);
         pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<ReviewLike> likePage=  reviewService.findLikeBySelective(pageDto);
-        Preconditions.checkArgument(!likePage.isEmpty(),REVIEW_LIKE_NOT_FOUND);
+        Page<ReviewLike> likePage = reviewService.findLikeBySelective(pageDto);
+        Preconditions.checkArgument(!likePage.isEmpty(), REVIEW_LIKE_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.deleteReviewLike(likePage.getResult().get(0).getId()));
     }

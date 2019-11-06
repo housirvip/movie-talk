@@ -3,10 +3,8 @@ package edu.uta.movietalk.controller;
 import com.github.pagehelper.Page;
 import com.google.common.base.Preconditions;
 import edu.uta.movietalk.base.BaseResponse;
-import edu.uta.movietalk.base.ErrorResponse;
 import edu.uta.movietalk.base.PageResponse;
 import edu.uta.movietalk.base.ResultResponse;
-import edu.uta.movietalk.constant.UserGroup;
 import edu.uta.movietalk.dto.ChangePass;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.UserDto;
@@ -16,11 +14,12 @@ import edu.uta.movietalk.entity.UserInfo;
 import edu.uta.movietalk.entity.UserRecord;
 import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static edu.uta.movietalk.constant.ErrorMessage.*;
+import static edu.uta.movietalk.constant.ErrorMessage.USER_FOLLOWING_ITSELF;
 
 /**
  * @author housirvip
@@ -48,20 +47,6 @@ public class UserController {
     public BaseResponse<User> friend(@RequestParam int id) {
 
         User friendInfo = userService.oneByIdWithInfo(id);
-//        friendInfo.setPassword(null);
-//        friendInfo.setCreateTime(null);
-//        friendInfo.setGroup(null);
-//        friendInfo.setRole(null);
-//        friendInfo.setEmail(null);
-//        friendInfo.setLevel(null);
-//        friendInfo.setPhone(null);
-//        friendInfo.setEnable(null);
-//        friendInfo.setUpdateTime(null);
-//        UserInfo fiendUserInfo = friendInfo.getUserInfo();
-//        fiendUserInfo.setCreateTime(null);
-//        fiendUserInfo.setJob(null);
-//        fiendUserInfo.setState(null);
-//        fiendUserInfo.setUpdateTime(null);
 
         return new ResultResponse<>(friendInfo);
     }
@@ -97,7 +82,7 @@ public class UserController {
     @PutMapping(value = "/following")
     public BaseResponse<Integer> createFollowing(@RequestParam int toId, Authentication auth) {
 
-        Preconditions.checkArgument(toId != (Integer) auth.getPrincipal(),USER_FOLLOWING_ITSELF);
+        Preconditions.checkArgument(toId != (Integer) auth.getPrincipal(), USER_FOLLOWING_ITSELF);
         Integer result = userService.followUser((Integer) auth.getPrincipal(), toId);
         return new ResultResponse<>(result);
     }
@@ -116,22 +101,24 @@ public class UserController {
     }
 
     @GetMapping(value = "/all")
-    public BaseResponse<Page> selectUser(PageDto pageDto, Authentication auth) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public BaseResponse<Page> allByAdmin(PageDto pageDto) {
 
-        User user = userService.oneByIdWithInfo((Integer) auth.getPrincipal());
-
-        Boolean result = user.getGroup().getValue().equals(UserGroup.Admin.getValue());
-        Preconditions.checkArgument(result,USER_GROUP_LIMIT);
         Page<User> userPage = userService.pageByParam(pageDto);
 
         return new PageResponse<>(userPage, userPage.getTotal());
     }
 
-    @PutMapping(value = "/update")
-    public BaseResponse<Integer> updateUser(@RequestBody User user, Authentication auth) {
+    @GetMapping(value = "/getById")
+    @PreAuthorize("hasRole('ADMIN')")
+    public BaseResponse<User> getById(@RequestParam Integer uid) {
 
-        Boolean result = userService.oneByIdWithInfo((Integer) auth.getPrincipal()).getGroup().getValue().equals(UserGroup.Admin.getValue());
-        Preconditions.checkArgument(result,USER_GROUP_LIMIT);
+        return new ResultResponse<>(userService.oneByIdWithInfo(uid));
+    }
+
+    @PutMapping(value = "/update")
+    @PreAuthorize("hasRole('ADMIN')")
+    public BaseResponse<Integer> updateByAdmin(@RequestBody User user) {
 
         return new ResultResponse<>(userService.update(user));
     }
