@@ -31,8 +31,6 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    private final UserService userService;
-
     private final IllegalInfoProcess illegalInfoProcess;
 
     @GetMapping(value = "/getById/{reviewId}")
@@ -213,6 +211,7 @@ public class ReviewController {
     }
 
     @GetMapping(value = "/all")
+    @PreAuthorize("hasRole('ADMIN')")
     public BaseResponse<Page> getAllReviews(PageDto pageDto) {
 
         Page<Review> reviewPage = reviewService.pageAllReviewsByLike(pageDto);
@@ -222,6 +221,7 @@ public class ReviewController {
     }
 
     @GetMapping(value = "/reply/all")
+    @PreAuthorize("hasRole('ADMIN')")
     public BaseResponse<Page> getAllReply(PageDto pageDto) {
 
         Page<ReviewReply> replyPage = reviewService.pageAllRepliesByLike(pageDto);
