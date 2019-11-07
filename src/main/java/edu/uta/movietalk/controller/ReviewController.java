@@ -11,7 +11,6 @@ import edu.uta.movietalk.entity.ReviewLike;
 import edu.uta.movietalk.entity.ReviewReply;
 import edu.uta.movietalk.nlp.IllegalInfoProcess;
 import edu.uta.movietalk.service.ReviewService;
-import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
