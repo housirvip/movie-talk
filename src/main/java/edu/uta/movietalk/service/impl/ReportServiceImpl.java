@@ -8,6 +8,8 @@ import edu.uta.movietalk.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @author hxy
  */
@@ -29,6 +31,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public int createReport(Report report) {
+        report.setCreateTime(new Date());
         return reportMapper.insert(report);
     }
 
@@ -43,6 +46,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public int updateReport(Report report) {
+        report.setUpdateTime(new Date());
         return reportMapper.updateByPrimaryKeySelective(report);
     }
 }

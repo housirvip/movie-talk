@@ -9,9 +9,11 @@
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="solve" jdbcType="INTEGER" property="solve" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, reply_id, review_id, uid, type, content, solve
+    id, reply_id, review_id, uid, type, content, solve, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -49,10 +51,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into report (reply_id, review_id, uid, 
-      type, content, solve
+      type, content, solve, create_time, update_time
       )
     values (#{replyId,jdbcType=INTEGER}, #{reviewId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
-      #{type,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{solve,jdbcType=INTEGER}
+      #{type,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{solve,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="edu.uta.movietalk.entity.Report">
@@ -79,6 +82,12 @@
       <if test="solve != null">
         solve,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="replyId != null">
@@ -98,6 +107,12 @@
       </if>
       <if test="solve != null">
         #{solve,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -122,6 +137,12 @@
       <if test="solve != null">
         solve = #{solve,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -132,7 +153,9 @@
       uid = #{uid,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      solve = #{solve,jdbcType=INTEGER}
+      solve = #{solve,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
