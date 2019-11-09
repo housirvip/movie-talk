@@ -41,6 +41,7 @@
     <if test="solve != null">
       and solve = #{solve,jdbcType=INTEGER}
     </if>
+    order by solve desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from report

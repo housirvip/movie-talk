@@ -11,7 +11,6 @@ import edu.uta.movietalk.entity.ReviewLike;
 import edu.uta.movietalk.entity.ReviewReply;
 import edu.uta.movietalk.nlp.IllegalInfoProcess;
 import edu.uta.movietalk.service.ReviewService;
-import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,8 +29,6 @@ import static edu.uta.movietalk.constant.ErrorMessage.*;
 public class ReviewController {
 
     private final ReviewService reviewService;
-
-    private final UserService userService;
 
     private final IllegalInfoProcess illegalInfoProcess;
 
@@ -213,6 +210,7 @@ public class ReviewController {
     }
 
     @GetMapping(value = "/all")
+    @PreAuthorize("hasRole('ADMIN')")
     public BaseResponse<Page> getAllReviews(PageDto pageDto) {
 
         Page<Review> reviewPage = reviewService.pageAllReviewsByLike(pageDto);
@@ -222,6 +220,7 @@ public class ReviewController {
     }
 
     @GetMapping(value = "/reply/all")
+    @PreAuthorize("hasRole('ADMIN')")
     public BaseResponse<Page> getAllReply(PageDto pageDto) {
 
         Page<ReviewReply> replyPage = reviewService.pageAllRepliesByLike(pageDto);
