@@ -82,6 +82,9 @@
         <include refid="Blob_Column_List"/>
         from user
         <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
             <include refid="search"/>
         </where>
         <include refid="order"/>
