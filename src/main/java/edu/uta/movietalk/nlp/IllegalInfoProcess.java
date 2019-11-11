@@ -29,29 +29,26 @@ public class IllegalInfoProcess {
     String apiKey;
 
     public Boolean isDirty(String content) {
-
-        try {
-
-            Map<String, String> map = new HashMap<>();
-            map.put("api_key", apiKey);
-            map.put("text", content);
-            Abuse abuse= pdClient.postEmotion(apiKey, content);
-            if(abuse.getAbusive() > 0.7) {
-                return Boolean.TRUE;
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-
-
         DirtyWord dirtyWord = new DirtyWord();
         dirtyWord.setLanguage("en");
         List<String> dirtyWordList = dirtyWordMapper.selectWordBySelective(dirtyWord);
 
         for (String word : dirtyWordList) {
-            if(content.contains(word)) {
+            if(content.toLowerCase().contains(word)) {
                 return Boolean.TRUE;
             }
+        }
+        try {
+
+            Map<String, String> map = new HashMap<>();
+            map.put("api_key", apiKey);
+            map.put("text", content.toLowerCase());
+            Abuse abuse= pdClient.postEmotion(apiKey, content);
+            if(abuse.getAbusive() > 0.8) {
+                return Boolean.TRUE;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
         return Boolean.FALSE;
     }
