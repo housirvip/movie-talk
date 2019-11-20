@@ -8,10 +8,7 @@ import edu.uta.movietalk.base.ResultResponse;
 import edu.uta.movietalk.dto.ChangePass;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.UserDto;
-import edu.uta.movietalk.entity.User;
-import edu.uta.movietalk.entity.UserFollow;
-import edu.uta.movietalk.entity.UserInfo;
-import edu.uta.movietalk.entity.UserRecord;
+import edu.uta.movietalk.entity.*;
 import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -129,5 +126,12 @@ public class UserController {
     public BaseResponse<Integer> updateByAdmin(@RequestBody User user) {
 
         return new ResultResponse<>(userService.update(user));
+    }
+
+    @GetMapping(value = "/adminRecord")
+    @PreAuthorize("hasRole('ADMIN')")
+    public BaseResponse<AdminRecord> getAdminRecord() {
+
+        return new ResultResponse<>(userService.selectAdminRecord());
     }
 }

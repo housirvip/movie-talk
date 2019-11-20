@@ -19,6 +19,13 @@
         <result column="reply_total" jdbcType="INTEGER" javaType="java.lang.Integer" property="replyTotal"/>
         <result column="follow_total" jdbcType="INTEGER" javaType="java.lang.Integer" property="followTotal"/>
     </resultMap>
+    <resultMap id="AdminRecordResultMap" type="edu.uta.movietalk.entity.AdminRecord">
+        <result column="user_total" jdbcType="INTEGER" javaType="java.lang.Integer" property="userTotal"/>
+        <result column="review_total" jdbcType="INTEGER" javaType="java.lang.Integer" property="reviewTotal"/>
+        <result column="reply_total" jdbcType="INTEGER" javaType="java.lang.Integer" property="replyTotal"/>
+        <result column="report_total" jdbcType="INTEGER" javaType="java.lang.Integer" property="reportTotal"/>
+        <result column="report_unsolve_total" jdbcType="INTEGER" javaType="java.lang.Integer" property="reportUnsolveTotal"/>
+    </resultMap>
     <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="edu.uta.movietalk.entity.User">
         <result column="role" jdbcType="LONGVARCHAR" property="role"
                 typeHandler="edu.uta.movietalk.typehandler.ListTypeHandler"/>
@@ -97,6 +104,14 @@
         from user
         where phone = #{phone,jdbcType=VARCHAR}
         limit 1
+    </select>
+    <select id="selectAdminRecord" resultMap="AdminRecordResultMap">
+        SELECT
+            ( SELECT count( * ) FROM user ) AS user_total,
+            ( SELECT count( * ) FROM review ) AS review_total,
+            ( SELECT count( * ) FROM review_reply ) AS reply_total,
+            ( SELECT count( * ) FROM report ) AS report_total,
+            ( SELECT count( * ) FROM report WHERE solve = 1 ) AS report_unsolve_total
     </select>
     <select id="selectUserRecord" parameterType="java.lang.Integer" resultMap="UserRecordResultMap">
         SELECT

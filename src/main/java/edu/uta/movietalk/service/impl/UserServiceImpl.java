@@ -9,10 +9,7 @@ import edu.uta.movietalk.constant.ErrorMessage;
 import edu.uta.movietalk.constant.UserGroup;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.UserDto;
-import edu.uta.movietalk.entity.User;
-import edu.uta.movietalk.entity.UserFollow;
-import edu.uta.movietalk.entity.UserInfo;
-import edu.uta.movietalk.entity.UserRecord;
+import edu.uta.movietalk.entity.*;
 import edu.uta.movietalk.mapper.UserFollowMapper;
 import edu.uta.movietalk.mapper.UserInfoMapper;
 import edu.uta.movietalk.mapper.UserMapper;
@@ -25,9 +22,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author housirvip
@@ -264,5 +260,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserRecord selectUserRecord(Integer uid) {
         return userMapper.selectUserRecord(uid);
+    }
+
+    @Override
+    public AdminRecord selectAdminRecord() {
+        AdminRecord adminRecord = userMapper.selectAdminRecord();
+        List<WebDataRecord> webDataRecordList = new ArrayList<>();
+        SimpleDateFormat sf = new SimpleDateFormat("MM/dd");
+        Date today = new Date();
+        for(int i=0;i<5;i++) {
+
+            long ms = today.getTime() - (4-i)*24*3600*1000L;
+            Date prevDay = new Date(ms);
+
+            WebDataRecord webDataRecord = new WebDataRecord();
+            webDataRecord.setDate(sf.format(prevDay));
+            webDataRecord.setVisitor(new Random().nextInt(100));
+            webDataRecord.setLiker(new Random().nextInt(10));
+            webDataRecord.setRatio(new Random().nextDouble());
+            webDataRecordList.add(webDataRecord);
+        }
+        adminRecord.setWebDataRecordList(webDataRecordList);
+        return adminRecord;
     }
 }

@@ -3,10 +3,7 @@ package edu.uta.movietalk.service;
 import com.github.pagehelper.Page;
 import edu.uta.movietalk.dto.PageDto;
 import edu.uta.movietalk.dto.UserDto;
-import edu.uta.movietalk.entity.User;
-import edu.uta.movietalk.entity.UserFollow;
-import edu.uta.movietalk.entity.UserInfo;
-import edu.uta.movietalk.entity.UserRecord;
+import edu.uta.movietalk.entity.*;
 
 /**
  * @author housirvip
@@ -127,4 +124,12 @@ public interface UserService {
      * @return UserRecord
      */
     UserRecord selectUserRecord(Integer uid);
+
+    /**
+     * select all user Record
+     *
+     * @param
+     * @return AdminRecord
+     */
+    AdminRecord selectAdminRecord();
 }
