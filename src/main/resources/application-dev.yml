@@ -51,6 +51,9 @@ api:
   pd:
     url: https://apis.paralleldots.com
     key: ${PD_KEY}
+  ts:
+    url: https://api.tisane.ai
+    key: ${TS_KEY}
 
 logging:
   level:

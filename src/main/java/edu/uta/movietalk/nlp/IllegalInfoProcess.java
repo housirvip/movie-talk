@@ -1,17 +1,15 @@
 package edu.uta.movietalk.nlp;
 
 import edu.uta.movietalk.client.PDClient;
-import edu.uta.movietalk.entity.Abuse;
-import edu.uta.movietalk.entity.DirtyWord;
+import edu.uta.movietalk.client.TSClient;
+import edu.uta.movietalk.entity.*;
 import edu.uta.movietalk.mapper.DirtyWordMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author hxy
@@ -25,8 +23,13 @@ public class IllegalInfoProcess {
 
     private final PDClient pdClient;
 
+    private final TSClient tsClient;
+
     @Value("${api.pd.key}")
     String apiKey;
+
+    @Value("${api.ts.key}")
+    String tsKey;
 
     public Boolean isDirty(String content) {
         DirtyWord dirtyWord = new DirtyWord();
@@ -38,13 +41,28 @@ public class IllegalInfoProcess {
                 return Boolean.TRUE;
             }
         }
-        try {
+//        try {
+//
+//            Map<String, String> map = new HashMap<>();
+//            map.put("api_key", apiKey);
+//            map.put("text", content.toLowerCase());
+//            ParallelDotAbuse parallelDotAbuse = pdClient.postEmotion(apiKey, content);
+//            if(parallelDotAbuse.getAbusive() > 0.8) {
+//                return Boolean.TRUE;
+//            }
+//        } catch (Exception e) {
+//            log.error(e.getMessage(), e);
+//        }
 
-            Map<String, String> map = new HashMap<>();
-            map.put("api_key", apiKey);
-            map.put("text", content.toLowerCase());
-            Abuse abuse= pdClient.postEmotion(apiKey, content);
-            if(abuse.getAbusive() > 0.8) {
+        try {
+            TisanceParse tisanceParse = new TisanceParse();
+            tisanceParse.setContent(content);
+            tisanceParse.setLanguage("en");
+            TisanceParseSetting tisanceParseSetting = new TisanceParseSetting();
+            tisanceParseSetting.setAbuse(Boolean.TRUE);
+            tisanceParse.setSettings(tisanceParseSetting);
+            TisanceResponse tisanceResponse = tsClient.parse(tsKey, tisanceParse);
+            if(tisanceResponse.getAbuse() !=null && !tisanceResponse.getAbuse().isEmpty()) {
                 return Boolean.TRUE;
             }
         } catch (Exception e) {

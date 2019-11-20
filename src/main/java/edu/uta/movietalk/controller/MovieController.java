@@ -1,9 +1,14 @@
 package edu.uta.movietalk.controller;
 
+import com.github.pagehelper.Page;
 import edu.uta.movietalk.base.BaseResponse;
+import edu.uta.movietalk.base.PageResponse;
 import edu.uta.movietalk.base.ResultResponse;
 import edu.uta.movietalk.client.TMDBClient;
+import edu.uta.movietalk.dto.PageDto;
+import edu.uta.movietalk.entity.Collect;
 import edu.uta.movietalk.entity.Score;
+import edu.uta.movietalk.service.CollectService;
 import edu.uta.movietalk.service.ScoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,11 +27,50 @@ public class MovieController {
 
     private final ScoreService scoreService;
 
+    private final CollectService collectService;
+
     @Value("${api.tmdb.v3}")
     String apiV3;
 
     @Value("${api.tmdb.v4}")
     String apiV4;
+
+    @GetMapping(value = "/isCollect")
+    public BaseResponse<Object> isCollect(@RequestParam("mid") Integer mid, Authentication auth) {
+
+        if(auth != null && auth.getPrincipal() != null) {
+            Collect collect = new Collect();
+            collect.setMid(mid);
+            collect.setUid((Integer)auth.getPrincipal());
+            return new ResultResponse<>(collectService.isCollect(collect));
+        }
+
+        return new ResultResponse<>(0);
+    }
+
+    @PostMapping(value = "/collect")
+    public BaseResponse<Object> createCollect(@RequestBody Collect collect, Authentication auth) {
+
+        collect.setUid((Integer)auth.getPrincipal());
+        return new ResultResponse<>(collectService.insertCollect(collect));
+    }
+
+    @DeleteMapping(value = "/collect")
+    public BaseResponse<Object> deleteCorrect(@RequestParam("mid") Integer mid, Authentication auth) {
+
+        PageDto pageDto = new PageDto();
+        pageDto.putUid((Integer) auth.getPrincipal());
+        pageDto.getParamAsMap().put("mid", mid);
+        Page<Collect> collectPage = collectService.pageCollectBySelective(pageDto);
+        return new ResultResponse<>(collectService.deleteCollect(collectPage.get(0).getId()));
+    }
+
+    @GetMapping(value = "/collect/getByUid")
+    public BaseResponse<Page> findCorrectByUid(PageDto pageDto, Authentication auth) {
+        pageDto.putUid((Integer) auth.getPrincipal());
+        Page<Collect> collectPage = collectService.pageCollectBySelective(pageDto);
+        return new PageResponse<>(collectPage, collectPage.getTotal());
+    }
 
     @GetMapping(value = "/now_playing")
     public BaseResponse<Object> nowPlay() {
