@@ -121,7 +121,18 @@ public class ReviewController {
         PageDto pageDto = new PageDto();
         pageDto.getParamAsMap().put("id", replyId);
 
-        return new ResultResponse<>(reviewService.findReviewReplyBySelective(pageDto).getResult().get(0));
+        return new ResultResponse<>(reviewService.pageReviewReplyBySelective(pageDto).getResult().get(0));
+    }
+
+    @GetMapping(value = "/reply/getByUid")
+    public BaseResponse<Page> getReviewReplyByUid(Authentication auth) {
+
+        PageDto pageDto = new PageDto();
+        pageDto.getParamAsMap().put("uid", auth.getPrincipal());
+
+        Page<ReviewReply> replyPage = reviewService.pageReviewReplyBySelective(pageDto);
+
+        return new PageResponse<>(replyPage, replyPage.getTotal());
     }
 
     @GetMapping(value = "/reply/getByRid")
@@ -148,7 +159,7 @@ public class ReviewController {
         pageDto.getParamAsMap().put("id", id);
         pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<ReviewReply> replyPage = reviewService.findReviewReplyBySelective(pageDto);
+        Page<ReviewReply> replyPage = reviewService.pageReviewReplyBySelective(pageDto);
         Preconditions.checkArgument(!replyPage.isEmpty(), REVIEW_REPLY_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.deleteReviewReply(id));
@@ -168,7 +179,7 @@ public class ReviewController {
         pageDto.getParamAsMap().put("id", reply.getId());
         pageDto.putUid((Integer) auth.getPrincipal());
 
-        Page<ReviewReply> reviewPage = reviewService.findReviewReplyBySelective(pageDto);
+        Page<ReviewReply> reviewPage = reviewService.pageReviewReplyBySelective(pageDto);
         Preconditions.checkArgument(!reviewPage.isEmpty(), REVIEW_REPLY_NOT_FOUND);
 
         return new ResultResponse<>(reviewService.updateReviewReply(reply));

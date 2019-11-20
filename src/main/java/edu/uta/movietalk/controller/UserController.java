@@ -79,6 +79,14 @@ public class UserController {
         return new PageResponse<>(userFollowPage, userFollowPage.getTotal());
     }
 
+    @GetMapping(value = "/follower")
+    public BaseResponse<Page> getFollowers(PageDto pageDto, Authentication auth) {
+
+        pageDto.getParamAsMap().put("toId", auth.getPrincipal());
+        Page<UserFollow> userFollowPage = userService.pageUserFollow(pageDto);
+        return new PageResponse<>(userFollowPage, userFollowPage.getTotal());
+    }
+
     @PutMapping(value = "/following")
     public BaseResponse<Integer> createFollowing(@RequestParam int toId, Authentication auth) {
 

@@ -25,6 +25,8 @@ public class IllegalInfoProcess {
 
     private final TSClient tsClient;
 
+    private final StanfordNlp stanfordNlp;
+
     @Value("${api.pd.key}")
     String apiKey;
 
@@ -34,13 +36,16 @@ public class IllegalInfoProcess {
     public Boolean isDirty(String content) {
         DirtyWord dirtyWord = new DirtyWord();
         dirtyWord.setLanguage("en");
-        List<String> dirtyWordList = dirtyWordMapper.selectWordBySelective(dirtyWord);
+//        List<String> dirtyWordList = dirtyWordMapper.selectWordBySelective(dirtyWord);
 
-        for (String word : dirtyWordList) {
-            if(content.toLowerCase().contains(word)) {
-                return Boolean.TRUE;
-            }
-        }
+//        List<String> contentWord = stanfordNlp.segment(content);
+//        for (String word : contentWord) {
+//            for(String dirty: dirtyWordList) {
+//                if(word.equals(dirty)) {
+//                    return Boolean.TRUE;
+//                }
+//            }
+//        }
 //        try {
 //
 //            Map<String, String> map = new HashMap<>();

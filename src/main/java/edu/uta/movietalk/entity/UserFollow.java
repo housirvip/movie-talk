@@ -20,6 +20,10 @@ public class UserFollow implements Serializable {
 
     private Integer toId;
 
+    private String fromName;
+
+    private String toName;
+
     private Date createTime;
 
     private static final long serialVersionUID = 1L;

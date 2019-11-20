@@ -36,6 +36,9 @@
     <if test="rid != null">
       and rid = #{rid,jdbcType=INTEGER}
     </if>
+    <if test="uid != null">
+      and review_reply.uid = #{uid,jdbcType=INTEGER}
+    </if>
   </select>
   <select id="selectByLike" parameterType="map" resultMap="BaseResultMap">
     select

@@ -136,7 +136,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     @Override
-    public Page<ReviewReply> findReviewReplyBySelective(PageDto pageDto) {
+    public Page<ReviewReply> pageReviewReplyBySelective(PageDto pageDto) {
 
         return replyMapper.selectByPrimaryKeySelective(pageDto.putParam().getParamAsMap());
     }

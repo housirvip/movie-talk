@@ -5,6 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="from_id" jdbcType="INTEGER" property="fromId" />
     <result column="to_id" jdbcType="INTEGER" property="toId" />
+    <result column="from_name" jdbcType="VARCHAR" javaType="java.lang.String" property="fromName" />
+    <result column="to_name" jdbcType="VARCHAR" javaType="java.lang.String" property="toName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -12,13 +14,17 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List" />,
+    ( SELECT username FROM `user` WHERE user_follow.from_id = `user`.id ) AS from_name,
+    ( SELECT username FROM `user` WHERE user_follow.to_id = `user`.id ) AS to_name
     from user_follow
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectBySelective" parameterType="map" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List" />,
+    ( SELECT username FROM `user` WHERE user_follow.from_id = `user`.id ) AS from_name,
+    ( SELECT username FROM `user` WHERE user_follow.to_id = `user`.id ) AS to_name
     from user_follow
     where 1 = 1
     <if test="fromId != null">

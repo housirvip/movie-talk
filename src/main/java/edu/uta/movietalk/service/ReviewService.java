@@ -116,7 +116,7 @@ public interface ReviewService {
      * @param pageDto pageDto
      * @return ReviewReply
      */
-    Page<ReviewReply> findReviewReplyBySelective(PageDto pageDto);
+    Page<ReviewReply> pageReviewReplyBySelective(PageDto pageDto);
 
     /**
      * user can create a review like
