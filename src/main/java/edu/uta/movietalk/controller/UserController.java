@@ -18,10 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.websocket.server.PathParam;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import static edu.uta.movietalk.constant.ErrorMessage.USER_FOLLOWING_ITSELF;
 
@@ -151,19 +148,25 @@ public class UserController {
         if (upFile != null && upFile.length > 0) {
             MultipartFile uploadFile = upFile[0];
 
-            String filePath = rootPath + File.separator + auth.getPrincipal();
-            File dir = new File(filePath);
-            if(!dir.exists()) {
+            File dir = new File(rootPath);
+            if (!dir.exists()) {
                 dir.mkdir();
             }
 
-            File saveFile = new File(dir, "avatar.jpg");
+            Integer uid = (Integer) auth.getPrincipal();
+            String url = uid + ".jpg";
+            File saveFile = new File(dir, url);
             try {
                 uploadFile.transferTo(saveFile);
             } catch (Exception e) {
                 e.printStackTrace();
                 return new ResultResponse<>("error:" + e.getMessage());
             }
+
+            User user = userService.oneByIdWithInfo(uid);
+            UserInfo userInfo = user.getUserInfo();
+            userInfo.setAvatar(url);
+            userService.updateInfo(userInfo);
             return new ResultResponse<>("success");
         }
 
