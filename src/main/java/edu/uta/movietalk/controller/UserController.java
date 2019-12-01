@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.Date;
 
 import static edu.uta.movietalk.constant.ErrorMessage.USER_FOLLOWING_ITSELF;
 
@@ -148,13 +149,19 @@ public class UserController {
         if (upFile != null && upFile.length > 0) {
             MultipartFile uploadFile = upFile[0];
 
-            File dir = new File(rootPath);
+            Integer uid = (Integer) auth.getPrincipal();
+
+            String filePath = rootPath + File.separator + uid;
+
+            File dir = new File(filePath);
             if (!dir.exists()) {
                 dir.mkdir();
             }
+            for(File file : dir.listFiles()) {
+                file.delete();
+            }
 
-            Integer uid = (Integer) auth.getPrincipal();
-            String url = uid + ".jpg";
+            String url = System.currentTimeMillis() + ".jpg";
             File saveFile = new File(dir, url);
             try {
                 uploadFile.transferTo(saveFile);
@@ -167,7 +174,7 @@ public class UserController {
             UserInfo userInfo = user.getUserInfo();
             userInfo.setAvatar(url);
             userService.updateInfo(userInfo);
-            return new ResultResponse<>("success");
+            return new ResultResponse<>(url);
         }
 
         return new ResultResponse<>("error: nothing to do");
