@@ -60,3 +60,7 @@ logging:
     root: info
     edu.uta.movietalk.client: debug
     edu.uta.movietalk.mapper: debug
+
+file:
+  avatar:
+    root: /usr/share/nginx/html/avatar

@@ -11,10 +11,17 @@ import edu.uta.movietalk.dto.UserDto;
 import edu.uta.movietalk.entity.*;
 import edu.uta.movietalk.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.websocket.server.PathParam;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import static edu.uta.movietalk.constant.ErrorMessage.USER_FOLLOWING_ITSELF;
 
@@ -27,6 +34,9 @@ import static edu.uta.movietalk.constant.ErrorMessage.USER_FOLLOWING_ITSELF;
 public class UserController {
 
     private final UserService userService;
+
+    @Value("${file.avatar.root}")
+    String rootPath;
 
     @GetMapping(value = "/detail")
     public BaseResponse<User> detail(Authentication auth) {
@@ -133,5 +143,30 @@ public class UserController {
     public BaseResponse<AdminRecord> getAdminRecord() {
 
         return new ResultResponse<>(userService.selectAdminRecord());
+    }
+
+    @PostMapping(value = "/avatar")
+    public BaseResponse<String> uploadAvatar(@RequestParam(value = "upFile", required = true) MultipartFile[] upFile, Authentication auth) {
+
+        if (upFile != null && upFile.length > 0) {
+            MultipartFile uploadFile = upFile[0];
+
+            String filePath = rootPath + File.separator + auth.getPrincipal();
+            File dir = new File(filePath);
+            if(!dir.exists()) {
+                dir.mkdir();
+            }
+
+            File saveFile = new File(dir, "avatar.jpg");
+            try {
+                uploadFile.transferTo(saveFile);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new ResultResponse<>("error:" + e.getMessage());
+            }
+            return new ResultResponse<>("success");
+        }
+
+        return new ResultResponse<>("error: nothing to do");
     }
 }
