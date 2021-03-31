@@ -20,7 +20,7 @@
         <feign.version>10.4.0</feign.version>
         <page-helper.version>1.2.12</page-helper.version>
         <jwt.version>3.8.2</jwt.version>
-        <guava.version>28.1-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
         <mybatis-generator.version>1.3.7</mybatis-generator.version>
         <allure.version>2.13.0</allure.version>
         <junit.vintage.version>5.1.0</junit.vintage.version>
